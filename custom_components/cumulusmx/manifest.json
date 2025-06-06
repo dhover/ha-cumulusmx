@@ -2,8 +2,8 @@
   "domain": "cumulusmx",
   "name": "CumulusMX",
   "version": "1.0.0",
-  "documentation": "https://github.com/dhover/cumulusmx",
-  "issues": "https://github.com/dhover/cumulusmx/issues",
+  "documentation": "https://github.com/dhover/ha-cumulusmx",
+  "issues": "https://github.com/dhover/ha-cumulusmx/issues",
   "requirements": [],
   "dependencies": [],
   "codeowners": [
