@@ -4,6 +4,13 @@
 The CumulusMX integration allows you to connect your CumulusMX weather station to Home Assistant, enabling you to monitor and control your weather data seamlessly.
 
 ## Installation
+
+### GUI Installation (Recommended)
+1. In Home Assistant, go to **Settings** > **Devices & Services**.
+2. Click **+ Add Integration** and search for "CumulusMX".
+3. Follow the on-screen instructions to complete the setup.
+
+### Manual Installation
 1. Download the CumulusMX integration files.
 2. Place the `cumulusmx` folder in your Home Assistant `custom_components` directory.
 3. Restart Home Assistant to recognize the new integration.
