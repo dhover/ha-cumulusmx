@@ -53,10 +53,10 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
     coordinator = hass.data["cumulusmx"][config_entry.entry_id]
     sensors = []
     for key, sensor_info in SENSOR_TYPES.items():
-        if key not in UNIT_KEYS:
-            device_type = get_device_type(key)
-            sensors.append(CumulusMXSensor(
-                coordinator, key, sensor_info, device_type))
+        # if key not in UNIT_KEYS:
+        device_type = get_device_type(key)
+        sensors.append(CumulusMXSensor(
+            coordinator, key, sensor_info, device_type))
     async_add_entities(sensors)
 
 
@@ -70,6 +70,7 @@ class CumulusMXSensor(CoordinatorEntity, Entity):
         self._device_type = device_type
         self._host = coordinator.host
         self._port = coordinator.port
+        self._attr_state_class = sensor_info.get("state_class")
 
     @property
     def name(self):
