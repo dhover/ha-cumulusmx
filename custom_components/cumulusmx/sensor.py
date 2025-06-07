@@ -71,7 +71,7 @@ class CumulusMXSensor(CoordinatorEntity, SensorEntity):
         self._device_type = device_type
         self._host = coordinator.host
         self._port = coordinator.port
-        self._attr_state_class = sensor_info.get("state_class")
+        # self._attr_state_class = sensor_info.get("state_class")
 
     @property
     def name(self):
@@ -115,9 +115,9 @@ class CumulusMXSensor(CoordinatorEntity, SensorEntity):
     def device_class(self):
         return self._sensor_info.get("device_class")
 
-    # @property
-    # def state_class(self):
-    #    return self._sensor_info.get("state_class")
+    @property
+    def state_class(self):
+        return self._sensor_info.get("state_class")
 
     @property
     def device_info(self):
