@@ -114,9 +114,9 @@ class CumulusMXSensor(CoordinatorEntity, Entity):
     def device_class(self):
         return self._sensor_info.get("device_class")
 
-    @property
-    def state_class(self):
-        return self._sensor_info.get("state_class")
+    # @property
+    # def state_class(self):
+    #    return self._sensor_info.get("state_class")
 
     @property
     def device_info(self):
