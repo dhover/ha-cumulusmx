@@ -18,7 +18,7 @@ def get_device_info(device_type, host, port):
             "identifiers": {("cumulusmx", "airlink")},
             "name": "Davis Airlink",
             "manufacturer": "Davis",
-            # "model": "Airlink",
+            "model": "Airlink",
             "configuration_url": f"http://{host}:{port}"
         }
     elif device_type == "system":
@@ -26,7 +26,7 @@ def get_device_info(device_type, host, port):
             "identifiers": {("cumulusmx", "system")},
             "name": "CumulusMX System Info",
             "manufacturer": "CumulusMX",
-            # "model": "System",
+            "model": "System Info",
             "configuration_url": f"http://{host}:{port}"
         }
     else:
@@ -34,7 +34,7 @@ def get_device_info(device_type, host, port):
             "identifiers": {("cumulusmx", "weather")},
             "name": "Davis Vantage Pro 2",
             "manufacturer": "Davis",
-            # "model": "Vantage Pro 2",
+            "model": "Vantage Pro 2",
             "configuration_url": f"http://{host}:{port}"
         }
 
