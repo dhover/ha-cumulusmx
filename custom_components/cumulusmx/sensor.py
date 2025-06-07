@@ -1,3 +1,4 @@
+from homeassistant.components.sensor import SensorEntity
 from homeassistant.helpers.entity import Entity
 from homeassistant.const import CONF_NAME, CONF_UNIT_OF_MEASUREMENT
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
@@ -60,7 +61,7 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
     async_add_entities(sensors)
 
 
-class CumulusMXSensor(CoordinatorEntity, Entity):
+class CumulusMXSensor(CoordinatorEntity, SensorEntity):
     _attr_has_entity_name = True
 
     def __init__(self, coordinator: CumulusMXCoordinator, key: str, sensor_info: dict, device_type: str):
