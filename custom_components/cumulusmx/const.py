@@ -17,7 +17,7 @@ CONF_HOST = "host"
 CONF_PORT = "port"
 CONF_WEBTAGS = "webtags"
 
-DEFAULT_HOST = "192.168.186.50"
+DEFAULT_HOST = "192.168.x.x"
 DEFAULT_PORT = 8998
 DEFAULT_WEBTAGS = "temp,hum,dew,press,rfall,rrate,wgust,wspeed,wlatest,bearing,avgbearing,LastRainTipISO,AirLinkPm1Out,AirLinkPm2p5Out,AirLinkPm2p5_1hrOut,AirLinkPm2p5_3hrOut,AirLinkPm2p5_24hrOut,AirLinkPm2p5_NowcastOut,AirLinkPm10Out,AirLinkPm10_1hrOut,AirLinkPm10_3hrOut,AirLinkPm10_24hrOut,AirLinkPm10_NowcastOut,AirLinkAqiPm2p5Out,AirLinkAqiPm2p5_1hrOut,AirLinkAqiPm2p5_3hrOut,AirLinkAqiPm2p5_24hrOut,AirLinkAqiPm2p5_NowcastOut,AirLinkAqiPm10Out,AirLinkAqiPm10_1hrOut,AirLinkAqiPm10_3hrOut,AirLinkAqiPm10_24hrOut,AirLinkAqiPm10_NowcastOut,AirLinkTempOut,AirLinkHumOut,MulticastGoodCnt,MulticastBadCnt,MulticastGoodPct,ProgramUpTime,SystemUpTime,version,build,timehhmmss"
 DEFAULT_UPDATE_INTERVAL = 60
@@ -73,60 +73,6 @@ SENSOR_TYPES = {
     "avgbearing": {"device": "weather", "name": "Average Bearing", "device_class": None, "state_class": "measurement", "unit": "°"},
     "lastraintipiso": {"device": "weather", "name": "Last Rain Tip", "device_class": None, "state_class": None, "unit": None},
 }
-
-# SENSOR_POST_BODY = """
-# {
-# "time":"<#year rc=y>-<#month rc=y>-<#day rc=y> <#timehhmmss rc=y>",
-# "temp":"<#temp rc=y>",
-# "hum":"<#hum rc=y>",
-# "press":"<#press rc=y>",
-# "rfall":"<#rfall rc=y>",
-# "rrate":"<#rrate rc=y>",
-# "wgust":"<#wgust rc=y>",
-# "wspeed":"<#wspeed rc=y>",
-# "wlatest":"<#wlatest rc=y>",
-# "bearing":"<#bearing rc=y>",
-# "avgbearing":"<#avgbearing rc=y>",
-# "lastraintipiso":"<#LastRainTipISO rc=y>",
-# "dew":"<#dew rc=y>",
-# "pm1":"<#AirLinkPm1Out rc=y>",
-# "pm2p5":"<#AirLinkPm2p5Out rc=y>",
-# "pm2p5_1hr":"<#AirLinkPm2p5_1hrOut rc=y>",
-# "pm2p5_3hr":"<#AirLinkPm2p5_3hrOut rc=y>",
-# "pm2p5_24hr":"<#AirLinkPm2p5_24hrOut rc=y>",
-# "pm2p5_nowcast":"<#AirLinkPm2p5_NowcastOut rc=y>",
-# "pm10":"<#AirLinkPm10Out rc=y>",
-# "pm10_1hr":"<#AirLinkPm10_1hrOut rc=y>",
-# "pm10_3hr":"<#AirLinkPm10_3hrOut rc=y>",
-# "pm10_24hr":"<#AirLinkPm10_24hrOut rc=y>",
-# "pm10_nowcast":"<#AirLinkPm10_NowcastOut rc=y>",
-# "pm2p5_aqi":"<#AirLinkAqiPm2p5Out rc=y>",
-# "pm2p5_aqi_1hr":"<#AirLinkAqiPm2p5_1hrOut rc=y>",
-# "pm2p5_aqi_3hr":"<#AirLinkAqiPm2p5_3hrOut rc=y>",
-# "pm2p5_aqi_24hr":"<#AirLinkAqiPm2p5_24hrOut rc=y>",
-# "pm2p5_aqi_nowcast":"<#AirLinkAqiPm2p5_NowcastOut rc=y>",
-# "pm10_aqi":"<#AirLinkAqiPm10Out rc=y>",
-# "pm10_aqi_1hr":"<#AirLinkAqiPm10_1hrOut rc=y>",
-# "pm10_aqi_3hr":"<#AirLinkAqiPm10_3hrOut rc=y>",
-# "pm10_aqi_24hr":"<#AirLinkAqiPm10_24hrOut rc=y>",
-# "pm10_aqi_nowcast":"<#AirLinkAqiPm10_NowcastOut rc=y>",
-# "airlinktempout":"<#AirLinkTempOut rc=y>",
-# "airlinkhumout":"<#AirLinkHumOut rc=y>",
-# "goodpackets":"<#MulticastGoodCnt rc=y>",
-# "badpackets":"<#MulticastBadCnt rc=y>",
-# "goodpacketspercent":"<#MulticastGoodPct rc=y>",
-# "uptime":"<#ProgramUpTime rc=y>",
-# "systemuptime":"<#SystemUpTime rc=y>",
-# "version":"<#version rc=y>",
-# "build":"<#build rc=y>",
-# "tempunit":"<#tempunit rc=y>",
-# "humunit":"%",
-# "pressunit":"<#pressunit rc=y>",
-# "rainunit":"<#rainunit rc=y>",
-# "rrateunit":"<#rainunit rc=y>/h",
-# "windunit":"<#windunit rc=y>"
-# }
-# """
 
 
 def create_sensor_post_body(keys: str) -> dict:
