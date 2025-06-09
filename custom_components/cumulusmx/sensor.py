@@ -3,11 +3,8 @@ from homeassistant.helpers.entity import Entity
 from homeassistant.const import CONF_NAME, CONF_UNIT_OF_MEASUREMENT
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import SENSOR_TYPES, SENSOR_TYPES_AIRLINK, SENSOR_TYPES_SYSTEM
+from .const import SENSOR_TYPES
 from .coordinator import CumulusMXCoordinator
-
-# UNIT_KEYS = {"tempunit", "humunit", "pressunit",
-#             "rainunit", "rrateunit", "windunit"}
 
 # Device info definitions
 
@@ -41,24 +38,11 @@ def get_device_info(device_type, host, port):
 
 def get_device_type(key):
     # Use airlink device type if the key is in SENSOR_TYPES_AIRLINK
-    if key in SENSOR_TYPES_AIRLINK:
-        return "airlink"
-    # System sensors (packets, uptime, version, build)
-    if key in SENSOR_TYPES_SYSTEM:
-        return "system"
-    # All others are weather sensors
-    return "weather"
+    if key in SENSOR_TYPES:
+        device_type = SENSOR_TYPES.get(key, {}).get("device", "weather")
+        return device_type
+    return None
 
-
-# async def async_setup_entry(hass, config_entry, async_add_entities):
-#    coordinator = hass.data["cumulusmx"][config_entry.entry_id]
-#    sensors = []
-#    for key, sensor_info in SENSOR_TYPES.items():
-#        # if key not in UNIT_KEYS:
-#        device_type = get_device_type(key)
-#        sensors.append(CumulusMXSensor(
-#            coordinator, key, sensor_info, device_type))
-#    async_add_entities(sensors)
 
 async def async_setup_entry(hass, config_entry, async_add_entities):
     coordinator = hass.data["cumulusmx"][config_entry.entry_id]
@@ -71,12 +55,15 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
     for key in coordinator.data.keys():
         sensor_info = SENSOR_TYPES.get(key, {
             "name": key.replace("_", " ").title(),
+            "device": None,
             "device_class": None,
             "state_class": None,
+            "unit": None
         })
         device_type = get_device_type(key)
-        sensors.append(CumulusMXSensor(
-            coordinator, key, sensor_info, device_type))
+        if device_type is not None:
+            sensors.append(CumulusMXSensor(
+                coordinator, key, sensor_info, device_type))
     async_add_entities(sensors)
 
 
@@ -100,9 +87,14 @@ class CumulusMXSensor(CoordinatorEntity, SensorEntity):
     def state(self):
         value = self.coordinator.data.get(
             self._key) if self.coordinator.data else None
-        # Replace comma by dot for goodpacketspercent
-        if self._key == "goodpacketspercent" and isinstance(value, str):
-            return value.replace(",", ".")
+        # Replace comma by dot if value is numeric and contains a comma
+        if isinstance(value, str) and "," in value:
+            try:
+                # Try converting to float after replacing comma
+                float(value.replace(",", "."))
+                return value.replace(",", ".")
+            except ValueError:
+                pass
         return value
 
     @property
@@ -111,24 +103,13 @@ class CumulusMXSensor(CoordinatorEntity, SensorEntity):
 
     @property
     def unit_of_measurement(self):
-        if self._key in {"temp", "dew", "airlinktempout"}:
-            return self.coordinator.data.get("tempunit", "").replace("&#176;", "°") if self.coordinator.data else None
-        if self._key in {"press"}:
-            return self.coordinator.data.get("pressunit") if self.coordinator.data else None
-        if self._key in {"hum", "airlinkhumout"}:
-            return self.coordinator.data.get("humunit") if self.coordinator.data else None
-        if self._key in {"wgust", "wspeed", "wlatest"}:
-            return self.coordinator.data.get("windunit") if self.coordinator.data else None
-        if self._key in {"rfall"}:
-            return self.coordinator.data.get("rainunit") if self.coordinator.data else None
-        if self._key in {"rrate"}:
-            return self.coordinator.data.get("rrateunit") if self.coordinator.data else None
-        if self._key in {"pm1", "pm2p5", "pm2p5_1hr", "pm2p5_3hr", "pm2p5_24hr", "pm2p5_nowcast",
-                         "pm10", "pm10_1hr", "pm10_3hr", "pm10_24hr", "pm10_nowcast"}:
-            return "µg/m³"
-        if self._key in {"bearing", "avgbearing"}:
-            return "°"
-        return None
+        # Prefer dynamic unit from coordinator.data if available and not None
+        dynamic_unit = self.coordinator.data.get(
+            f"{self._key}unit") if self.coordinator.data else None
+        if dynamic_unit:
+            return dynamic_unit.replace("&#176;", "°")
+        # Otherwise, use the static unit from SENSOR_TYPES
+        return self._sensor_info.get("unit")
 
     @property
     def device_class(self):
