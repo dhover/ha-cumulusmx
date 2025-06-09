@@ -6,8 +6,8 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from .const import SENSOR_TYPES, SENSOR_TYPES_AIRLINK, SENSOR_TYPES_SYSTEM
 from .coordinator import CumulusMXCoordinator
 
-UNIT_KEYS = {"tempunit", "humunit", "pressunit",
-             "rainunit", "rrateunit", "windunit"}
+# UNIT_KEYS = {"tempunit", "humunit", "pressunit",
+#             "rainunit", "rrateunit", "windunit"}
 
 # Device info definitions
 
@@ -50,11 +50,30 @@ def get_device_type(key):
     return "weather"
 
 
+# async def async_setup_entry(hass, config_entry, async_add_entities):
+#    coordinator = hass.data["cumulusmx"][config_entry.entry_id]
+#    sensors = []
+#    for key, sensor_info in SENSOR_TYPES.items():
+#        # if key not in UNIT_KEYS:
+#        device_type = get_device_type(key)
+#        sensors.append(CumulusMXSensor(
+#            coordinator, key, sensor_info, device_type))
+#    async_add_entities(sensors)
+
 async def async_setup_entry(hass, config_entry, async_add_entities):
     coordinator = hass.data["cumulusmx"][config_entry.entry_id]
     sensors = []
-    for key, sensor_info in SENSOR_TYPES.items():
-        # if key not in UNIT_KEYS:
+    # Wait for the first data refresh to get all keys
+    await coordinator.async_refresh()
+    if not coordinator.data:
+        return
+
+    for key in coordinator.data.keys():
+        sensor_info = SENSOR_TYPES.get(key, {
+            "name": key.replace("_", " ").title(),
+            "device_class": None,
+            "state_class": None,
+        })
         device_type = get_device_type(key)
         sensors.append(CumulusMXSensor(
             coordinator, key, sensor_info, device_type))
