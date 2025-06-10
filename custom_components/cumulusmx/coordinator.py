@@ -30,7 +30,7 @@ class CumulusMXCoordinator(DataUpdateCoordinator):
         self.url = SENSOR_API_URL.format(host=self.host, port=self.port)
         webtags = config_entry.data.get(CONF_WEBTAGS, "temp,hum,dew")
         self.post_body = create_sensor_post_body(webtags)
-        _LOGGER.warning("Send to CumulusMX: %s", self.post_body)
+        _LOGGER.debug("Send to CumulusMX: %s", self.post_body)
         # self.post_body = SENSOR_POST_BODY
         update_interval = timedelta(seconds=config_entry.data.get(
             CONF_UPDATE_INTERVAL, DEFAULT_UPDATE_INTERVAL))
@@ -48,7 +48,7 @@ class CumulusMXCoordinator(DataUpdateCoordinator):
             async with session.post(self.url, json=self.post_body, timeout=10) as response:
                 response.raise_for_status()
                 data = await response.json(content_type=None)
-                _LOGGER.warning("Received data from CumulusMX: %s", data)
+                _LOGGER.debug("Received data from CumulusMX: %s", data)
                 return data
         except (ClientError, Exception) as err:
             raise UpdateFailed(
