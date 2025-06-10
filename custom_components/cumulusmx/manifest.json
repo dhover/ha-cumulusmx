@@ -1,7 +1,7 @@
 {
   "domain": "cumulusmx",
   "name": "CumulusMX",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "documentation": "https://github.com/dhover/ha-cumulusmx",
   "issues": "https://github.com/dhover/ha-cumulusmx/issues",
   "requirements": [],

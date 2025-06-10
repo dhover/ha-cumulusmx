@@ -22,10 +22,19 @@ To configure the CumulusMX integration, add the following to your `configuration
 cumulusmx:
   host: YOUR_CUMULUSMX_HOST
   port: YOUR_CUMULUSMX_PORT
+  webtags: YOUR_WEBTAGS
   update interval: YOUR_UPDATE_INTERVAL
 ```
 
 Replace `YOUR_CUMULUSMX_HOST` and `YOUR_CUMULUSMX_PORT` with the appropriate values for your setup.
+
+## Webtags
+
+The integration supports the following webtags (sensor keys):
+
+```
+"airlinkpm1out","airlinkpm2p5out","airlinkpm2p5_1hrout","airlinkpm2p5_3hrout","airlinkpm2p5_24hrout","airlinkpm2p5_nowcastout","airlinkpm10out","airlinkpm10_1hrout","airlinkpm10_3hrout","airlinkpm10_24hrout","airlinkpm10_nowcastout","airlinkaqipm2p5out","airlinkaqipm2p5_1hrout","airlinkaqipm2p5_3hrout","airlinkaqipm2p5_24hrout","airlinkaqipm2p5_nowcastout","airlinkaqipm10out","airlinkaqipm10_1hrout","airlinkaqipm10_3hrout","airlinkaqipm10_24hrout","airlinkaqipm10_nowcastout","airlinktempout","airlinkhumout","timehhmmss","multicastgoodcnt","multicastbadcnt","multicastgoodpct","programuptime","systemuptime","version","build","temp","hum","press","rfall","rrate","wgust","wspeed","wlatest","bearing","avgbearing","lastraintipiso","dew"
+```
 
 ## Usage
 Once configured, the CumulusMX integration will create sensor entities in Home Assistant that represent various weather data points. You can view and use these sensors in your Home Assistant dashboard.

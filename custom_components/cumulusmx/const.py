@@ -79,6 +79,6 @@ def create_sensor_post_body(keys: str) -> dict:
     """
     Given a comma-separated string of keys, return a dictionary
     mapping each key to its CumulusMX tag template.
-    Example: "temp, hum, dew" -> {"temp": "<#temp rc=y>", "hum": "<#hum rc=y>", "dew": "<#dew rc=y>"}
+    Example: "temp, hum, dew" -> {"temp": "<#temp>", "hum": "<#hum>", "dew": "<#dew>"}
     """
     return {key.strip().lower(): f"<#{key.strip()}>" for key in keys.split(",") if key.strip()}
