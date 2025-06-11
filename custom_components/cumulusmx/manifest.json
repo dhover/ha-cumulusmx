@@ -2,12 +2,12 @@
   "domain": "cumulusmx",
   "name": "CumulusMX",
   "version": "1.0.7",
-  "documentation": "https://github.com/dhover/ha-cumulusmx",
-  "requirements": [],
-  "dependencies": [],
   "codeowners": [
     "@dhover"
   ],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/dhover/ha-cumulusmx",
   "iot_class": "local_polling",
-  "config_flow": true
+  "requirements": []
 }
