@@ -3,7 +3,6 @@
   "name": "CumulusMX",
   "version": "1.0.7",
   "documentation": "https://github.com/dhover/ha-cumulusmx",
-  "issues": "https://github.com/dhover/ha-cumulusmx/issues",
   "requirements": [],
   "dependencies": [],
   "codeowners": [
