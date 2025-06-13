@@ -19,6 +19,8 @@ from .const import (
     SENSOR_API_URL,
 )
 
+from .cumulusmx import CumulusMXApi  # <-- Import the API class
+
 _LOGGER = logging.getLogger(__name__)
 
 
@@ -31,9 +33,11 @@ class CumulusMXCoordinator(DataUpdateCoordinator):
         webtags = config_entry.data.get(CONF_WEBTAGS, "temp,hum,dew")
         self.post_body = create_sensor_post_body(webtags)
         _LOGGER.debug("Send to CumulusMX: %s", self.post_body)
-        # self.post_body = SENSOR_POST_BODY
         update_interval = timedelta(seconds=config_entry.data.get(
             CONF_UPDATE_INTERVAL, DEFAULT_UPDATE_INTERVAL))
+
+        self.api = CumulusMXApi(self.hass, self.url,
+                                self.post_body)  # <-- Instantiate API
 
         super().__init__(
             hass,
@@ -44,12 +48,8 @@ class CumulusMXCoordinator(DataUpdateCoordinator):
 
     async def _async_update_data(self):
         try:
-            session = async_get_clientsession(self.hass)
-            async with session.post(self.url, json=self.post_body, timeout=10) as response:
-                response.raise_for_status()
-                data = await response.json(content_type=None)
-                _LOGGER.debug("Received data from CumulusMX: %s", data)
-                return data
+            data = await self.api.async_get_data()  # <-- Use the API method
+            return data
         except (ClientError, Exception) as err:
             raise UpdateFailed(
                 f"Error communicating with CumulusMX API: {err}") from err
