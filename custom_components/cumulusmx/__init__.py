@@ -4,6 +4,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from .const import DOMAIN
 from .coordinator import CumulusMXCoordinator
+# from . import config_flow  # Zorgt dat de options flow wordt geregistreerd
 
 CONFIG_SCHEMA = cv.config_entry_only_config_schema("cumulusmx")
 

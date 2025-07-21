@@ -58,8 +58,10 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
             "device": None,
             "device_class": None,
             "state_class": None,
-            "unit": None
-        })
+            "unit": None,
+            "icon": None
+        }).copy()
+
         device_type = get_device_type(key)
         if device_type is not None:
             sensors.append(CumulusMXSensor(
@@ -77,7 +79,6 @@ class CumulusMXSensor(CoordinatorEntity, SensorEntity):
         self._device_type = device_type
         self._host = coordinator.host
         self._port = coordinator.port
-        # self._attr_state_class = sensor_info.get("state_class")
 
     @property
     def name(self):
@@ -122,3 +123,10 @@ class CumulusMXSensor(CoordinatorEntity, SensorEntity):
     @property
     def device_info(self):
         return get_device_info(self._device_type, self._host, self._port)
+
+    @property
+    def icon(self):
+        """Return the icon if set and er geen device_class is, anders None (dan gebruikt HA het standaardicoon)."""
+        if self._sensor_info.get("icon"):
+            return self._sensor_info["icon"]
+        return None
