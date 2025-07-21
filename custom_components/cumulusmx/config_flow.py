@@ -43,14 +43,11 @@ class CumulusMXOptionsFlowHandler(config_entries.OptionsFlow):
 
     async def async_step_init(self, user_input=None):
         if user_input is not None:
-            # Save options and reload integration so sensors are updated
             result = self.async_create_entry(data=user_input)
-            hass = self.config_entry.hass
-            if hass:
-                await hass.config_entries.async_reload(self.config_entry.entry_id)
+            if self.hass:
+                await self.hass.config_entries.async_reload(self.config_entry.entry_id)
             return result
 
-        # Use suggested values from current config entry
         return self.async_show_form(
             step_id="init",
             data_schema=self.add_suggested_values_to_schema(
