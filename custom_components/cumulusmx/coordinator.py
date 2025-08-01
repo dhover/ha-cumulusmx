@@ -42,6 +42,7 @@ class CumulusMXCoordinator(DataUpdateCoordinator):
         super().__init__(
             hass,
             _LOGGER,
+            config_entry=config_entry,
             name=f"{DOMAIN} Coordinator",
             update_interval=update_interval,
         )
