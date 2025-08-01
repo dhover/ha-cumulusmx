@@ -44,7 +44,7 @@ def get_device_type(key):
     return None
 
 
-async def async_setup_entry(hass, config_entry, async_add_entities):
+async def async_setup_entry(hass, config_entry, async_add_entities, **kwargs):
     coordinator = hass.data["cumulusmx"][config_entry.entry_id]
     sensors = []
     # Wait for the first data refresh to get all keys
