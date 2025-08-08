@@ -126,7 +126,7 @@ class CumulusMXSensor(CoordinatorEntity, SensorEntity):
 
     @property
     def icon(self):
-        """Return the icon if set and er geen device_class is, anders None (dan gebruikt HA het standaardicoon)."""
+        """Return the icon if set and no icon device_class is defined, otherwise None"""
         if self._sensor_info.get("icon"):
             return self._sensor_info["icon"]
         return None

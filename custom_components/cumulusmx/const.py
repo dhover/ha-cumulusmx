@@ -107,7 +107,7 @@ SENSOR_TYPES = {
         "state_class": SensorStateClass.MEASUREMENT, "unit": None
     },
     "airlinkaqipm10_24hrout": {
-        "device": "airlink", "name": "PM 10 AQL 24h", "device_class": SensorDeviceClass.AQI,
+        "device": "airlink", "name": "PM 10 AQI 24h", "device_class": SensorDeviceClass.AQI,
         "state_class": SensorStateClass.MEASUREMENT, "unit": None
     },
     "airlinkaqipm10_nowcastout": {
@@ -151,7 +151,7 @@ SENSOR_TYPES = {
         "icon": "mdi:clock-outline"
     },
     "timehhmmss": {
-        "device": "system", "name": "Time", "device_class": None, "state_class": "None", "unit": None,
+        "device": "system", "name": "Time", "device_class": None, "state_class": None, "unit": None,
         "icon": "mdi:clock-time-four-outline"
     },
     "version": {
@@ -168,11 +168,11 @@ SENSOR_TYPES = {
         "state_class": SensorStateClass.MEASUREMENT_ANGLE, "unit": DEGREE
     },
     "dew": {
-        "device": "weather", "name": "Dew Point", "device_class": "temperature",
+        "device": "weather", "name": "Dew Point", "device_class": SensorDeviceClass.TEMPERATURE,
         "state_class": SensorStateClass.MEASUREMENT, "unit": UnitOfTemperature.CELSIUS
     },
     "heatindex": {
-        "device": "weather", "name": "Heat Index", "device_class": "temperature",
+        "device": "weather", "name": "Heat Index", "device_class": SensorDeviceClass.TEMPERATURE,
         "state_class": SensorStateClass.MEASUREMENT, "unit": UnitOfTemperature.CELSIUS
     },
     "hum": {
@@ -197,7 +197,7 @@ SENSOR_TYPES = {
     },
     "rrate": {
         "device": "weather", "name": "Rainfall Rate", "device_class": SensorDeviceClass.PRECIPITATION_INTENSITY,
-        "state_class": SensorStateClass.MEASUREMENT, "unit": f"{UnitOfVolumetricFlux.MILLIMETERS_PER_HOUR}"
+        "state_class": SensorStateClass.MEASUREMENT, "unit": UnitOfVolumetricFlux.MILLIMETERS_PER_HOUR
     },
     "wgust": {
         "device": "weather", "name": "Wind Gust", "device_class": SensorDeviceClass.WIND_SPEED,

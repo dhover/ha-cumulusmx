@@ -20,15 +20,8 @@ class CumulusMXConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         if user_input is not None:
             return self.async_create_entry(title="CumulusMX", data=user_input)
 
-        data_schema = vol.Schema({
-            vol.Required(CONF_HOST, default=DEFAULT_HOST): str,
-            vol.Required(CONF_PORT, default=DEFAULT_PORT): int,
-            vol.Required(CONF_WEBTAGS, default=DEFAULT_WEBTAGS): str,
-            vol.Optional(CONF_UPDATE_INTERVAL, default=DEFAULT_UPDATE_INTERVAL): int,
-        })
-
         return self.async_show_form(
-            step_id="user", data_schema=data_schema, errors=errors
+            step_id="user", data_schema=OPTIONS_SCHEMA, errors=errors
         )
 
     @staticmethod
