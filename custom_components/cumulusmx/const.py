@@ -212,11 +212,11 @@ SENSOR_TYPES = {
         "state_class": SensorStateClass.MEASUREMENT, "unit": UnitOfSpeed.KILOMETERS_PER_HOUR
     },
     "wdir": {
-        "device": "weather", "name": "Average Bearing", "device_class": None, "state_class": None, "unit": None,
+        "device": "weather", "name": "Average Wind direction", "device_class": None, "state_class": None, "unit": None,
         "icon": "mdi:compass-outline"
     },
     "currentwdir": {
-        "device": "weather", "name": "Bearing", "device_class": None, "state_class": None, "unit": None,
+        "device": "weather", "name": "Wind Direction", "device_class": None, "state_class": None, "unit": None,
         "icon": "mdi:compass"
     },
 }
