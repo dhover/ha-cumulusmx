@@ -33,7 +33,7 @@ Replace `YOUR_CUMULUSMX_HOST` and `YOUR_CUMULUSMX_PORT` with the appropriate val
 The integration supports the following webtags (sensor keys):
 
 ```
-"airlinkpm1out","airlinkpm2p5out","airlinkpm2p5_1hrout","airlinkpm2p5_3hrout","airlinkpm2p5_24hrout","airlinkpm2p5_nowcastout","airlinkpm10out","airlinkpm10_1hrout","airlinkpm10_3hrout","airlinkpm10_24hrout","airlinkpm10_nowcastout","airlinkaqipm2p5out","airlinkaqipm2p5_1hrout","airlinkaqipm2p5_3hrout","airlinkaqipm2p5_24hrout","airlinkaqipm2p5_nowcastout","airlinkaqipm10out","airlinkaqipm10_1hrout","airlinkaqipm10_3hrout","airlinkaqipm10_24hrout","airlinkaqipm10_nowcastout","airlinktempout","airlinkhumout","timehhmmss","multicastgoodcnt","multicastbadcnt","multicastgoodpct","programuptime","systemuptime","version","build","temp","hum","press","rfall","rrate","wgust","wspeed","wlatest","bearing","avgbearing","lastraintipiso","dew"
+airlinkpm1out, airlinkpm2p5out, airlinkpm2p5_1hrout, airlinkpm2p5_3hrout, airlinkpm2p5_24hrout, airlinkpm2p5_nowcastout, airlinkpm10out, airlinkpm10_1hrout, airlinkpm10_3hrout, airlinkpm10_24hrout, airlinkpm10_nowcastout, airlinkaqipm2p5out, airlinkaqipm2p5_1hrout, airlinkaqipm2p5_3hrout, airlinkaqipm2p5_24hrout, airlinkaqipm2p5_nowcastout, airlinkaqipm10out, airlinkaqipm10_1hrout, airlinkaqipm10_3hrout, airlinkaqipm10_24hrout, airlinkaqipm10_nowcastout, airlinktempout, airlinkhumout, timehhmmss, multicastgoodcnt, multicastbadcnt, multicastgoodpct, programuptime, systemuptime, version, build, temp, hum, press, rfall, rrate, wgust, wspeed, wlatest, bearing, avgbearing, lastraintipiso, dew
 ```
 
 ## Usage
