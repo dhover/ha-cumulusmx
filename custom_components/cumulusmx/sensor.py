@@ -101,7 +101,7 @@ class CumulusMXSensor(CoordinatorEntity, SensorEntity):
     @property
     def unique_id(self):
         # Voeg device_type en host toe voor extra uniekheid
-        return f"cumulusmx__{self._device_type}__{self._key}"
+        return f"cumulusmx_{self._device_type}_{self._key}"
 
     @property
     def unit_of_measurement(self):
