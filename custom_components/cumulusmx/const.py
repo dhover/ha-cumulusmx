@@ -27,6 +27,7 @@ DEFAULT_UPDATE_INTERVAL = 60
 
 # Endpoint for reading sensors
 SENSOR_API_URL = "http://{host}:{port}/api/tags/process.txt"
+GITHUB_API_URL = "https://api.github.com/repos/cumulusmx/cumulusmx/releases/latest"
 
 SENSOR_TYPES = {
     # Sensors for Airlink device
