@@ -57,8 +57,8 @@ class CumulusMXUpdateEntity(UpdateEntity):
         return DeviceInfo(
             identifiers={(DOMAIN, self.coordinator.config_entry.entry_id)},
             name="CumulusMX Software",
-            #manufacturer="CumulusMX",
-            #model="Iungo",
+            manufacturer="CumulusMX",
+            model="Software",
             #hw_version=hardware.get("revision", ""),
             #serial_number=serial_number,
             sw_version=f"{version} build {build}",
