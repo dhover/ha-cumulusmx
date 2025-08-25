@@ -44,7 +44,7 @@ class CumulusMXUpdateEntity(UpdateEntity):
 
     @property
     def name(self):
-        return "CumulusMX Software Update"
+        return "Update"
 
     @property
     def device_info(self) -> DeviceInfo:
