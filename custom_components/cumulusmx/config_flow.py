@@ -1,3 +1,5 @@
+"""Config flow for CumulusMX integration."""
+
 import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.core import callback
@@ -15,7 +17,13 @@ OPTIONS_SCHEMA = vol.Schema({
 
 
 class CumulusMXConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
+    """Handle a CumulusMX config flow."""
+
+    VERSION = 1
+
     async def async_step_user(self, user_input=None):
+        """Handle the initial step."""
+
         errors = {}
         if user_input is not None:
             return self.async_create_entry(title="CumulusMX", data=user_input)
@@ -27,14 +35,20 @@ class CumulusMXConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     @staticmethod
     @callback
     def async_get_options_flow(config_entry):
+        """Get the options flow handler."""
+
         return CumulusMXOptionsFlowHandler(config_entry)
 
 
 class CumulusMXOptionsFlowHandler(config_entries.OptionsFlow):
+    """Handle CumulusMX options flow."""
+
     def __init__(self, config_entry):
         self.config_entry = config_entry
 
     async def async_step_init(self, user_input=None):
+        """Manage the options."""
+
         if user_input is not None:
             result = self.async_create_entry(data=user_input)
             if self.hass:

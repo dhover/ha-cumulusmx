@@ -1,3 +1,5 @@
+"""CumulusMX API client."""
+
 import logging
 from aiohttp import ClientError
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
@@ -5,6 +7,8 @@ from homeassistant.helpers.aiohttp_client import async_get_clientsession
 _LOGGER = logging.getLogger(__name__)
 
 class CumulusMXApi:
+    """CumulusMX API client."""
+
     def __init__(self, hass, url, post_body):
         self.hass = hass
         self.url = url

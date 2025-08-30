@@ -1,4 +1,5 @@
-import voluptuous as vol
+""" CumulusMX integration for Home Assistant."""
+
 from homeassistant.helpers import config_validation as cv
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant

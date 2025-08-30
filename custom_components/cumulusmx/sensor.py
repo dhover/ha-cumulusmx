@@ -1,6 +1,6 @@
+"""Platform for sensor integration."""
+
 from homeassistant.components.sensor import SensorEntity
-from homeassistant.helpers.entity import Entity
-from homeassistant.const import CONF_NAME, CONF_UNIT_OF_MEASUREMENT
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import SENSOR_TYPES
@@ -10,6 +10,8 @@ from .coordinator import CumulusMXCoordinator
 
 
 def get_device_info(device_type, host, port):
+    """Return device info based on device type."""
+
     if device_type == "airlink":
         return {
             "identifiers": {("cumulusmx", "airlink")},
@@ -37,6 +39,8 @@ def get_device_info(device_type, host, port):
 
 
 def get_device_type(key):
+    """Return device type based on sensor key."""
+
     # Use airlink device type if the key is in SENSOR_TYPES_AIRLINK
     if key in SENSOR_TYPES:
         device_type = SENSOR_TYPES.get(key, {}).get("device", "weather")
@@ -45,6 +49,8 @@ def get_device_type(key):
 
 
 async def async_setup_entry(hass, config_entry, async_add_entities):
+    """Set up sensors based on a config entry."""
+
     coordinator = hass.data["cumulusmx"][config_entry.entry_id]
     sensors = []
     # Wait for the first data refresh to get all keys
@@ -70,9 +76,12 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
 
 
 class CumulusMXSensor(CoordinatorEntity, SensorEntity):
+    """Representation of a CumulusMX sensor."""
+
     _attr_has_entity_name = True
 
-    def __init__(self, coordinator: CumulusMXCoordinator, key: str, sensor_info: dict, device_type: str):
+    def __init__(self, coordinator: CumulusMXCoordinator, key: str,
+                    sensor_info: dict, device_type: str):
         super().__init__(coordinator)
         self._key = key
         self._sensor_info = sensor_info
@@ -82,10 +91,12 @@ class CumulusMXSensor(CoordinatorEntity, SensorEntity):
 
     @property
     def name(self):
+        """Return the name of the sensor."""    
         return self._sensor_info.get("name", self._key)
 
     @property
     def state(self):
+        """Return the state of the sensor."""
         value = self.coordinator.data.get(
             self._key) if self.coordinator.data else None
         # Replace comma by dot if value is numeric and contains a comma
@@ -100,11 +111,13 @@ class CumulusMXSensor(CoordinatorEntity, SensorEntity):
 
     @property
     def unique_id(self):
+        """Return a unique ID."""
         # Voeg device_type en host toe voor extra uniekheid
         return f"cumulusmx_{self._device_type}_{self._key}"
 
     @property
     def unit_of_measurement(self):
+        """Return the unit of measurement."""
         # Prefer dynamic unit from coordinator.data if available and not None
         dynamic_unit = self.coordinator.data.get(
             f"{self._key}unit") if self.coordinator.data else None
@@ -115,14 +128,17 @@ class CumulusMXSensor(CoordinatorEntity, SensorEntity):
 
     @property
     def device_class(self):
+        """Return the device class."""
         return self._sensor_info.get("device_class")
 
     @property
     def state_class(self):
+        """Return the state class."""
         return self._sensor_info.get("state_class")
 
     @property
     def device_info(self):
+        """Return device information."""
         return get_device_info(self._device_type, self._host, self._port)
 
     @property

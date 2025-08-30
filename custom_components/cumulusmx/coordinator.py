@@ -1,3 +1,5 @@
+"""CumulusMX integration coordinator to manage data updates."""
+
 from datetime import timedelta
 import logging
 
@@ -6,7 +8,6 @@ from homeassistant.core import HomeAssistant
 from homeassistant.config_entries import ConfigEntry
 
 from aiohttp import ClientError
-from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from .const import create_sensor_post_body
 
 from .const import (
@@ -25,6 +26,8 @@ _LOGGER = logging.getLogger(__name__)
 
 
 class CumulusMXCoordinator(DataUpdateCoordinator):
+    """CumulusMX data update coordinator."""
+
     def __init__(self, hass: HomeAssistant, config_entry: ConfigEntry):
         self.hass = hass
         self.host = config_entry.options.get(CONF_HOST, config_entry.data.get(CONF_HOST))
@@ -33,8 +36,8 @@ class CumulusMXCoordinator(DataUpdateCoordinator):
         webtags = config_entry.options.get(CONF_WEBTAGS, config_entry.data.get(CONF_WEBTAGS))
         self.post_body = create_sensor_post_body(webtags)
         _LOGGER.debug("Send to CumulusMX: %s", self.post_body)
-        update_interval = timedelta(seconds=config_entry.options.get(
-            CONF_UPDATE_INTERVAL, config_entry.data.get(CONF_UPDATE_INTERVAL, DEFAULT_UPDATE_INTERVAL)))
+        update_interval = timedelta(seconds=config_entry.options.get(CONF_UPDATE_INTERVAL,
+            config_entry.data.get(CONF_UPDATE_INTERVAL, DEFAULT_UPDATE_INTERVAL)))
 
         self.api = CumulusMXApi(self.hass, self.url, self.post_body)
 

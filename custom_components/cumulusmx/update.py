@@ -1,15 +1,19 @@
+"""Support for CumulusMX software update entity."""
+
+import aiohttp
+
 from homeassistant.components.update import UpdateEntity
 from homeassistant.helpers.entity import DeviceInfo
 from .const import DOMAIN,GITHUB_API_URL
 
-import aiohttp
-
 
 async def async_setup_entry(hass, config_entry, async_add_entities):
+    """Set up the update entity based on a config entry."""
     coordinator = hass.data["cumulusmx"][config_entry.entry_id]
     async_add_entities([CumulusMXUpdateEntity(coordinator)], True)
 
 class CumulusMXUpdateEntity(UpdateEntity):
+    """CumulusMX software update entity."""
     _attr_has_entity_name = True
 
     def __init__(self, coordinator):
@@ -18,6 +22,7 @@ class CumulusMXUpdateEntity(UpdateEntity):
         self._attr_title = "CumulusMX Software"
 
     async def async_update(self):
+        """Fetch the latest version information from GitHub."""
         await self.coordinator.async_refresh()
         self._attr_installed_version = f"b{self.coordinator.data.get('build')}"
 
@@ -32,18 +37,22 @@ class CumulusMXUpdateEntity(UpdateEntity):
 
     @property
     def installed_version(self):
+        """Return the installed version."""
         return self._attr_installed_version
 
     @property
     def latest_version(self):
+        """Return the latest version."""
         return self._attr_latest_version
 
     @property
     def unique_id(self):
+        """Return a unique ID for the update entity."""
         return "cumulusmx_software_update"
 
     @property
     def name(self):
+        """Return the name of the update entity."""
         return "Update"
 
     @property
