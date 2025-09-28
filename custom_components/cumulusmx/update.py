@@ -27,7 +27,7 @@ class CumulusMXUpdateEntity(UpdateEntity):
         """Fetch the latest version information from GitHub."""
         await self.coordinator.async_refresh()
         self._attr_installed_version = f"b{self.coordinator.data.get('build')}"
-        self.version = f"b{self.coordinator.data.get('version')}"
+        self.version = f"{self.coordinator.data.get('version')}"
 
         # Fetch latest version from GitHub
         async with aiohttp.ClientSession() as session:
