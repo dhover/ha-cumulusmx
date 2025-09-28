@@ -21,11 +21,13 @@ class CumulusMXUpdateEntity(UpdateEntity):
         self._attr_latest_version = None
         self._attr_installed_version = None
         self._attr_title = "CumulusMX Software"
+        self.version = None
 
     async def async_update(self):
         """Fetch the latest version information from GitHub."""
         await self.coordinator.async_refresh()
         self._attr_installed_version = f"b{self.coordinator.data.get('build')}"
+        self.version = f"b{self.coordinator.data.get('version')}"
 
         # Fetch latest version from GitHub
         async with aiohttp.ClientSession() as session:
@@ -62,8 +64,10 @@ class CumulusMXUpdateEntity(UpdateEntity):
         if not self.coordinator.data:
             return None
 
-        version = self.coordinator.data.get('version') or ""
-        build = self.coordinator.data.get('build') or ""
+        #version = self.coordinator.data.get('version') or ""
+        version = self.version or ""
+        #build = self.coordinator.data.get('build') or ""
+        build = self._attr_installed_version or ""
         return DeviceInfo(
             identifiers={(DOMAIN, self.coordinator.config_entry.entry_id)},
             name="CumulusMX Software",
