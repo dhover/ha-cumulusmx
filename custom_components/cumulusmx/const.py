@@ -38,7 +38,7 @@ DEFAULT_WEBTAGS = "temp,hum,dew,heatindex,press,rfall,rrate,wgust," \
                     "AirLinkAqiPm10_24hrOut,AirLinkAqiPm10_NowcastOut," \
                     "AirLinkTempOut,AirLinkHumOut,MulticastGoodCnt," \
                     "MulticastBadCnt,MulticastGoodPct,ProgramUpTime," \
-                    "SystemUpTime,version,build,timehhmmss"
+                    "SystemUpTime,version,build,timehhmmss,txbattery"
 DEFAULT_UPDATE_INTERVAL = 60
 
 # Endpoint for reading sensors
@@ -234,6 +234,13 @@ SENSOR_TYPES = {
         "state_class": None,
         "unit": None,
         "icon": "mdi:clock-time-four-outline"
+    },
+    "txbattery": {
+        "device": "system", "name": "Battery",
+        "device_class": None,
+        "state_class": None,
+        "unit": None,
+        "icon": "mdi:battery-outline"
     },
     "version": {
         "device": "system", "name": "Version",
