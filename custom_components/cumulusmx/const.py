@@ -350,6 +350,18 @@ SENSOR_TYPES = {
         "unit": None,
         "icon": "mdi:compass"
     },
+        "intemp": {
+        "device": "weather", "name": "Indoor Temperature",
+        "device_class": SensorDeviceClass.TEMPERATURE,
+        "state_class": SensorStateClass.MEASUREMENT,
+        "unit": UnitOfTemperature.CELSIUS,
+    },
+    "inhum": {
+        "device": "weather", "name": "Indoor Humidity",
+        "device_class": SensorDeviceClass.HUMIDITY,
+        "state_class": SensorStateClass.MEASUREMENT,
+        "unit": PERCENTAGE,
+    },
 }
 
 
