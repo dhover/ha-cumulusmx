@@ -51,6 +51,8 @@ bearing
 build
 dew
 hum
+inhum
+intemp
 lastraintipiso
 multicastbadcnt
 multicastgoodcnt
