@@ -38,7 +38,7 @@ DEFAULT_WEBTAGS = "temp,hum,dew,heatindex,press,rfall,rrate,wgust," \
                     "AirLinkAqiPm10_24hrOut,AirLinkAqiPm10_NowcastOut," \
                     "AirLinkTempOut,AirLinkHumOut,MulticastGoodCnt," \
                     "MulticastBadCnt,MulticastGoodPct,ProgramUpTime," \
-                    "SystemUpTime,version,build,timehhmmss,txbattery channel=1,txbattery channel=2"
+                    "SystemUpTime,version,build,timehhmmss,txbattery channel=1,txbattery channel=2,intemp,inhum"
 DEFAULT_UPDATE_INTERVAL = 60
 
 # Endpoint for reading sensors
@@ -349,6 +349,18 @@ SENSOR_TYPES = {
         "state_class": None,
         "unit": None,
         "icon": "mdi:compass"
+    },
+        "intemp": {
+        "device": "weather", "name": "Indoor Temperature",
+        "device_class": SensorDeviceClass.TEMPERATURE,
+        "state_class": SensorStateClass.MEASUREMENT,
+        "unit": UnitOfTemperature.CELSIUS,
+    },
+    "inhum": {
+        "device": "weather", "name": "Indoor Humidity",
+        "device_class": SensorDeviceClass.HUMIDITY,
+        "state_class": SensorStateClass.MEASUREMENT,
+        "unit": PERCENTAGE,
     },
 }
 
