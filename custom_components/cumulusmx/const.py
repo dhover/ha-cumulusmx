@@ -38,7 +38,8 @@ DEFAULT_WEBTAGS = "temp,hum,dew,heatindex,press,rfall,rrate,wgust," \
                     "AirLinkAqiPm10_24hrOut,AirLinkAqiPm10_NowcastOut," \
                     "AirLinkTempOut,AirLinkHumOut,MulticastGoodCnt," \
                     "MulticastBadCnt,MulticastGoodPct,ProgramUpTime," \
-                    "SystemUpTime,version,build,timehhmmss,txbattery channel=1,txbattery channel=2,intemp,inhum"
+                    "SystemUpTime,version,build,timehhmmss," \
+                    "txbattery channel=1,txbattery channel=2,intemp,inhum"
 DEFAULT_UPDATE_INTERVAL = 60
 
 # Endpoint for reading sensors
