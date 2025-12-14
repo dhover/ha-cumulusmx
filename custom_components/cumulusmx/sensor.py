@@ -1,10 +1,22 @@
 """Platform for sensor integration."""
 
+import logging
+
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
+from homeassistant.components.sensor import SensorDeviceClass
+from homeassistant.const import (
+    UnitOfTemperature,
+    UnitOfPressure,
+    UnitOfPrecipitationDepth,
+    UnitOfVolumetricFlux,
+    UnitOfSpeed
+)
 
 from .const import SENSOR_TYPES
 from .coordinator import CumulusMXCoordinator
+
+_LOGGER = logging.getLogger(__name__)
 
 # Device info definitions
 
@@ -58,6 +70,15 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
     if not coordinator.data:
         return
 
+    temp_unit = coordinator.data["tempunit"]
+    press_unit = coordinator.data["pressunit"]
+    rain_unit = coordinator.data["rainunit"]
+    wind_unit = coordinator.data["windunit"]
+    _LOGGER.warning("temp_unit: %s", temp_unit)
+    _LOGGER.warning("press_unit: %s", press_unit)
+    _LOGGER.warning("rain_unit: %s", rain_unit)
+    _LOGGER.warning("wind_unit: %s", wind_unit)
+
     for key in coordinator.data.keys():
         sensor_info = SENSOR_TYPES.get(key, {
             "name": key.replace("_", " ").title(),
@@ -67,6 +88,49 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
             "unit": None,
             "icon": None
         }).copy()
+
+        if sensor_info["device_class"] == SensorDeviceClass.TEMPERATURE:
+            match temp_unit:
+                case "&#176;C":
+                    sensor_info["unit"] = UnitOfTemperature.CELSIUS
+                case "&#176;F":
+                    sensor_info["unit"] = UnitOfTemperature.FAHRENHEIT
+
+        if sensor_info["device_class"] == SensorDeviceClass.PRESSURE:
+            match press_unit:
+                case "hPa":
+                    sensor_info["unit"] = UnitOfPressure.HPA
+                case "kPa":
+                    sensor_info["unit"] = UnitOfPressure.KPA
+                case "mb":
+                    sensor_info["unit"] = UnitOfPressure.MBAR
+                case "in":
+                    sensor_info["unit"] = UnitOfPressure.INHG
+
+        if sensor_info["device_class"] == SensorDeviceClass.PRECIPITATION:
+            match rain_unit:
+                case "mm":
+                    sensor_info["unit"] = UnitOfPrecipitationDepth.MILLIMETERS
+                case "inches":
+                    sensor_info["unit"] = UnitOfPrecipitationDepth.INCHES
+
+        if sensor_info["device_class"] == SensorDeviceClass.PRECIPITATION_INTENSITY:
+            match rain_unit:
+                case "mm":
+                    sensor_info["unit"] = UnitOfVolumetricFlux.MILLIMETERS_PER_HOUR
+                case "inches":
+                    sensor_info["unit"] = UnitOfVolumetricFlux.INCHES_PER_HOUR
+
+        if sensor_info["device_class"] == SensorDeviceClass.WIND_SPEED:
+            match wind_unit:
+                case "m/s":
+                    sensor_info["unit"] = UnitOfSpeed.METERS_PER_SECOND
+                case "mph":
+                    sensor_info["unit"] = UnitOfSpeed.MILES_PER_HOUR
+                case "km/h":
+                    sensor_info["unit"] = UnitOfSpeed.KILOMETERS_PER_HOUR
+                case "kts":
+                    sensor_info["unit"] = UnitOfSpeed.KNOTS
 
         device_type = get_device_type(key)
         if device_type is not None:

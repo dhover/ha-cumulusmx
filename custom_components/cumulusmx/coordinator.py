@@ -34,6 +34,7 @@ class CumulusMXCoordinator(DataUpdateCoordinator):
         self.port = config_entry.options.get(CONF_PORT, config_entry.data.get(CONF_PORT))
         self.url = SENSOR_API_URL.format(host=self.host, port=self.port)
         webtags = config_entry.options.get(CONF_WEBTAGS, config_entry.data.get(CONF_WEBTAGS))
+        webtags = webtags + ",tempunit,pressunit,rainunit,windunit"
         self.post_body = create_sensor_post_body(webtags)
         _LOGGER.debug("Send to CumulusMX: %s", self.post_body)
         update_interval = timedelta(seconds=config_entry.options.get(CONF_UPDATE_INTERVAL,
