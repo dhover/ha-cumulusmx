@@ -74,10 +74,10 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
     press_unit = coordinator.data["pressunit"]
     rain_unit = coordinator.data["rainunit"]
     wind_unit = coordinator.data["windunit"]
-    _LOGGER.warning("temp_unit: %s", temp_unit)
-    _LOGGER.warning("press_unit: %s", press_unit)
-    _LOGGER.warning("rain_unit: %s", rain_unit)
-    _LOGGER.warning("wind_unit: %s", wind_unit)
+    _LOGGER.debug("temp_unit: %s", temp_unit)
+    _LOGGER.debug("press_unit: %s", press_unit)
+    _LOGGER.debug("rain_unit: %s", rain_unit)
+    _LOGGER.debug("wind_unit: %s", wind_unit)
 
     for key in coordinator.data.keys():
         sensor_info = SENSOR_TYPES.get(key, {
