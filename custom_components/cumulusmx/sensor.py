@@ -159,7 +159,7 @@ class CumulusMXSensor(CoordinatorEntity, SensorEntity):
         return self._sensor_info.get("name", self._key)
 
     @property
-    def state(self):
+    def native_value(self):
         """Return the state of the sensor."""
         value = self.coordinator.data.get(
             self._key) if self.coordinator.data else None
@@ -180,7 +180,7 @@ class CumulusMXSensor(CoordinatorEntity, SensorEntity):
         return f"cumulusmx_{self._device_type}_{self._key}"
 
     @property
-    def unit_of_measurement(self):
+    def native_unit_of_measurement(self):
         """Return the unit of measurement."""
         # Prefer dynamic unit from coordinator.data if available and not None
         dynamic_unit = self.coordinator.data.get(
