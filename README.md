@@ -15,9 +15,6 @@ The CumulusMX integration allows you to connect your CumulusMX weather station t
 2. Place the `cumulusmx` folder in your Home Assistant `custom_components` directory.
 3. Restart Home Assistant to recognize the new integration.
 
-## Configuration
-To configure the CumulusMX integration, add the following to your `configuration.yaml` file:
-
 ## Webtags
 
 The integration supports the following webtags (sensor keys):
