@@ -37,7 +37,7 @@ class CumulusMXConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     def async_get_options_flow(config_entry):
         """Get the options flow handler."""
 
-        return CumulusMXOptionsFlowHandler(config_entry)
+        return CumulusMXOptionsFlowHandler()
 
 
 class CumulusMXOptionsFlowHandler(config_entries.OptionsFlow):
