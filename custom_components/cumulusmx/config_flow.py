@@ -43,9 +43,6 @@ class CumulusMXConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 class CumulusMXOptionsFlowHandler(config_entries.OptionsFlow):
     """Handle CumulusMX options flow."""
 
-    def __init__(self, config_entry):
-        self.config_entry = config_entry
-
     async def async_step_init(self, user_input=None):
         """Manage the options."""
 
