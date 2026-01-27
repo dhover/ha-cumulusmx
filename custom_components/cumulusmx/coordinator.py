@@ -50,6 +50,20 @@ class CumulusMXCoordinator(DataUpdateCoordinator):
             update_interval=update_interval,
         )
 
+    async def async_reload_config(self):
+        """Reload configuration from config entry."""
+        self.host = self.config_entry.options.get(CONF_HOST, self.config_entry.data.get(CONF_HOST))
+        self.port = self.config_entry.options.get(CONF_PORT, self.config_entry.data.get(CONF_PORT))
+        self.url = SENSOR_API_URL.format(host=self.host, port=self.port)
+        webtags = self.config_entry.options.get(CONF_WEBTAGS, self.config_entry.data.get(CONF_WEBTAGS))
+        webtags = webtags + ",tempunit,pressunit,rainunit,windunit"
+        self.post_body = create_sensor_post_body(webtags)
+        _LOGGER.debug("Send to CumulusMX: %s", self.post_body)
+        update_interval = timedelta(seconds=self.config_entry.options.get(CONF_UPDATE_INTERVAL,
+            self.config_entry.data.get(CONF_UPDATE_INTERVAL, DEFAULT_UPDATE_INTERVAL)))
+        self.update_interval = update_interval
+        self.api = CumulusMXApi(self.hass, self.url, self.post_body)
+
     async def _async_update_data(self):
         try:
             data = await self.api.async_get_data()  # <-- Use the API method
