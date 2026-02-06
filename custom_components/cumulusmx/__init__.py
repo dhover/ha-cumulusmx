@@ -1,6 +1,7 @@
 """ CumulusMX integration for Home Assistant."""
 
 from homeassistant.helpers import config_validation as cv
+from homeassistant.helpers import device_registry as dr
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.const import Platform
@@ -23,6 +24,17 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Set up CumulusMX from a config entry."""
     coordinator = CumulusMXCoordinator(hass, entry)
     await coordinator.async_config_entry_first_refresh()
+
+    device_registry = dr.async_get(hass)
+    device_registry.async_get_or_create(
+        config_entry_id=entry.entry_id,
+        identifiers={(DOMAIN, entry.entry_id)},
+        name="CumulusMX",
+        manufacturer="CumulusMX",
+        model="CumulusMX",
+        configuration_url=f"http://{coordinator.host}:{coordinator.port}",
+    )
+
     hass.data.setdefault(DOMAIN, {})
     hass.data[DOMAIN][entry.entry_id] = coordinator
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
