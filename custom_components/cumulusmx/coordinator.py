@@ -17,6 +17,7 @@ from .const import (
     CONF_WEBTAGS,
     CONF_UPDATE_INTERVAL,
     DEFAULT_UPDATE_INTERVAL,
+    EXTRA_WEBTAGS,
     SENSOR_API_URL,
 )
 
@@ -36,7 +37,7 @@ class CumulusMXCoordinator(DataUpdateCoordinator):
         webtags = normalize_webtags(
             config_entry.options.get(CONF_WEBTAGS, config_entry.data.get(CONF_WEBTAGS))
         )
-        webtags.extend(["tempunit", "pressunit", "rainunit", "windunit"])
+        webtags.extend(EXTRA_WEBTAGS)
         self.post_body = create_sensor_post_body(webtags)
         _LOGGER.debug("Send to CumulusMX: %s", self.post_body)
         update_interval = timedelta(seconds=config_entry.options.get(CONF_UPDATE_INTERVAL,
@@ -60,7 +61,7 @@ class CumulusMXCoordinator(DataUpdateCoordinator):
         webtags = normalize_webtags(
             self.config_entry.options.get(CONF_WEBTAGS, self.config_entry.data.get(CONF_WEBTAGS))
         )
-        webtags.extend(["tempunit", "pressunit", "rainunit", "windunit"])
+        webtags.extend(EXTRA_WEBTAGS)
         self.post_body = create_sensor_post_body(webtags)
         _LOGGER.debug("Send to CumulusMX: %s", self.post_body)
         update_interval = timedelta(seconds=self.config_entry.options.get(CONF_UPDATE_INTERVAL,

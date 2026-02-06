@@ -67,14 +67,14 @@ DEFAULT_WEBTAGS = [
     "MulticastGoodPct",
     "ProgramUpTime",
     "SystemUpTime",
-    "version",
-    "build",
     "timehhmmss",
     "txbattery channel=1",
     "txbattery channel=2",
     "intemp",
     "inhum",
 ]
+EXTRA_WEBTAGS = ["version","build","tempunit", "pressunit", "rainunit", "windunit"]
+
 DEFAULT_UPDATE_INTERVAL = 60
 
 # Endpoint for reading sensors
