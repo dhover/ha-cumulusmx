@@ -23,23 +23,58 @@ CONF_WEBTAGS = "webtags"
 
 DEFAULT_HOST = "192.168.x.x"
 DEFAULT_PORT = 8998
-DEFAULT_WEBTAGS = "temp,hum,dew,heatindex,press,rfall,rrate,wgust," \
-                    "wspeed,wlatest,wdir,currentwdir,bearing," \
-                    "avgbearing,LastRainTipISO,AirLinkPm1Out," \
-                    "AirLinkPm2p5Out,AirLinkPm2p5_1hrOut," \
-                    "AirLinkPm2p5_3hrOut,AirLinkPm2p5_24hrOut," \
-                    "AirLinkPm2p5_NowcastOut,AirLinkPm10Out," \
-                    "AirLinkPm10_1hrOut,AirLinkPm10_3hrOut," \
-                    "AirLinkPm10_24hrOut,AirLinkPm10_NowcastOut," \
-                    "AirLinkAqiPm2p5Out,AirLinkAqiPm2p5_1hrOut," \
-                    "AirLinkAqiPm2p5_3hrOut,AirLinkAqiPm2p5_24hrOut," \
-                    "AirLinkAqiPm2p5_NowcastOut,AirLinkAqiPm10Out," \
-                    "AirLinkAqiPm10_1hrOut,AirLinkAqiPm10_3hrOut," \
-                    "AirLinkAqiPm10_24hrOut,AirLinkAqiPm10_NowcastOut," \
-                    "AirLinkTempOut,AirLinkHumOut,MulticastGoodCnt," \
-                    "MulticastBadCnt,MulticastGoodPct,ProgramUpTime," \
-                    "SystemUpTime,version,build,timehhmmss," \
-                    "txbattery channel=1,txbattery channel=2,intemp,inhum"
+DEFAULT_WEBTAGS = [
+    "temp",
+    "hum",
+    "dew",
+    "heatindex",
+    "press",
+    "rfall",
+    "rrate",
+    "wgust",
+    "wspeed",
+    "wlatest",
+    "wdir",
+    "currentwdir",
+    "bearing",
+    "avgbearing",
+    "LastRainTipISO",
+    "AirLinkPm1Out",
+    "AirLinkPm2p5Out",
+    "AirLinkPm2p5_1hrOut",
+    "AirLinkPm2p5_3hrOut",
+    "AirLinkPm2p5_24hrOut",
+    "AirLinkPm2p5_NowcastOut",
+    "AirLinkPm10Out",
+    "AirLinkPm10_1hrOut",
+    "AirLinkPm10_3hrOut",
+    "AirLinkPm10_24hrOut",
+    "AirLinkPm10_NowcastOut",
+    "AirLinkAqiPm2p5Out",
+    "AirLinkAqiPm2p5_1hrOut",
+    "AirLinkAqiPm2p5_3hrOut",
+    "AirLinkAqiPm2p5_24hrOut",
+    "AirLinkAqiPm2p5_NowcastOut",
+    "AirLinkAqiPm10Out",
+    "AirLinkAqiPm10_1hrOut",
+    "AirLinkAqiPm10_3hrOut",
+    "AirLinkAqiPm10_24hrOut",
+    "AirLinkAqiPm10_NowcastOut",
+    "AirLinkTempOut",
+    "AirLinkHumOut",
+    "MulticastGoodCnt",
+    "MulticastBadCnt",
+    "MulticastGoodPct",
+    "ProgramUpTime",
+    "SystemUpTime",
+    "version",
+    "build",
+    "timehhmmss",
+    "txbattery channel=1",
+    "txbattery channel=2",
+    "intemp",
+    "inhum",
+]
 DEFAULT_UPDATE_INTERVAL = 60
 
 # Endpoint for reading sensors
@@ -366,10 +401,35 @@ SENSOR_TYPES = {
 }
 
 
-def create_sensor_post_body(keys: str) -> dict:
+def normalize_webtags(webtags) -> list[str]:
+    """Normalize webtags from either a CSV string or a list into a deduped list."""
+    if not webtags:
+        return []
+    if isinstance(webtags, str):
+        items = [item.strip() for item in webtags.split(",")]
+    elif isinstance(webtags, (list, tuple, set)):
+        items = [str(item).strip() for item in webtags]
+    else:
+        return []
+
+    normalized = []
+    seen = set()
+    for item in items:
+        if not item:
+            continue
+        if item not in seen:
+            normalized.append(item)
+            seen.add(item)
+    return normalized
+
+
+def create_sensor_post_body(keys) -> dict:
     """
-    Given a comma-separated string of keys, return a dictionary
+    Given a list or comma-separated string of keys, return a dictionary
     mapping each key to its CumulusMX tag template.
-    Example: "temp, hum, dew" -> {"temp": "<#temp>", "hum": "<#hum>", "dew": "<#dew>"}
+    Example: ["temp", "hum", "dew"] -> {"temp": "<#temp>", "hum": "<#hum>", "dew": "<#dew>"}
     """
-    return {key.strip().lower(): f"<#{key.strip()}>" for key in keys.split(",") if key.strip()}
+    return {
+        key.strip().lower(): f"<#{key.strip()}>"
+        for key in normalize_webtags(keys)
+    }

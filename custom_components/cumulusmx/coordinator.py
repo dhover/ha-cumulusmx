@@ -8,7 +8,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.config_entries import ConfigEntry
 
 from aiohttp import ClientError
-from .const import create_sensor_post_body
+from .const import create_sensor_post_body, normalize_webtags
 
 from .const import (
     DOMAIN,
@@ -33,8 +33,10 @@ class CumulusMXCoordinator(DataUpdateCoordinator):
         self.host = config_entry.options.get(CONF_HOST, config_entry.data.get(CONF_HOST))
         self.port = config_entry.options.get(CONF_PORT, config_entry.data.get(CONF_PORT))
         self.url = SENSOR_API_URL.format(host=self.host, port=self.port)
-        webtags = config_entry.options.get(CONF_WEBTAGS, config_entry.data.get(CONF_WEBTAGS))
-        webtags = webtags + ",tempunit,pressunit,rainunit,windunit"
+        webtags = normalize_webtags(
+            config_entry.options.get(CONF_WEBTAGS, config_entry.data.get(CONF_WEBTAGS))
+        )
+        webtags.extend(["tempunit", "pressunit", "rainunit", "windunit"])
         self.post_body = create_sensor_post_body(webtags)
         _LOGGER.debug("Send to CumulusMX: %s", self.post_body)
         update_interval = timedelta(seconds=config_entry.options.get(CONF_UPDATE_INTERVAL,
@@ -55,8 +57,10 @@ class CumulusMXCoordinator(DataUpdateCoordinator):
         self.host = self.config_entry.options.get(CONF_HOST, self.config_entry.data.get(CONF_HOST))
         self.port = self.config_entry.options.get(CONF_PORT, self.config_entry.data.get(CONF_PORT))
         self.url = SENSOR_API_URL.format(host=self.host, port=self.port)
-        webtags = self.config_entry.options.get(CONF_WEBTAGS, self.config_entry.data.get(CONF_WEBTAGS))
-        webtags = webtags + ",tempunit,pressunit,rainunit,windunit"
+        webtags = normalize_webtags(
+            self.config_entry.options.get(CONF_WEBTAGS, self.config_entry.data.get(CONF_WEBTAGS))
+        )
+        webtags.extend(["tempunit", "pressunit", "rainunit", "windunit"])
         self.post_body = create_sensor_post_body(webtags)
         _LOGGER.debug("Send to CumulusMX: %s", self.post_body)
         update_interval = timedelta(seconds=self.config_entry.options.get(CONF_UPDATE_INTERVAL,
