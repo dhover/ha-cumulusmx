@@ -12,7 +12,7 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
     async_add_entities([CumulusMXUpdateEntity(coordinator)], True)
 
 class CumulusMXUpdateEntity(UpdateEntity):
-    """CumulusMX software update entity."""
+    """CumulusMX Hub update entity."""
     _attr_has_entity_name = True
 
     def __init__(self, coordinator):
@@ -56,7 +56,7 @@ class CumulusMXUpdateEntity(UpdateEntity):
     @property
     def unique_id(self):
         """Return a unique ID for the update entity."""
-        return "cumulusmx_software_update"
+        return "cumulusmx_hub_update"
 
     @property
     def name(self):
@@ -75,9 +75,9 @@ class CumulusMXUpdateEntity(UpdateEntity):
         build = self._attr_installed_version or ""
         return DeviceInfo(
             identifiers={(DOMAIN, self.coordinator.config_entry.entry_id)},
-            name="CumulusMX Software",
+            name="CumulusMX Hub",
             manufacturer="CumulusMX",
-            model="Software",
+            model="Hub",
             configuration_url=f"http://{self.coordinator.host}:{self.coordinator.port}",
             #hw_version=hardware.get("revision", ""),
             #serial_number=serial_number,
