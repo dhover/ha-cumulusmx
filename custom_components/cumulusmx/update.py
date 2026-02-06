@@ -26,16 +26,8 @@ class CumulusMXUpdateEntity(UpdateEntity):
         """Fetch the latest version information from GitHub."""
         await self.coordinator.async_refresh()
         build = self.coordinator.data.get("build")
-        version = self.coordinator.data.get("version")
-        self.version = f"{version}" if version is not None else None
-        if version is not None and build is not None:
-            self._attr_installed_version = f"{version} (build {build})"
-        elif version is not None:
-            self._attr_installed_version = f"{version}"
-        elif build is not None:
-            self._attr_installed_version = f"build {build}"
-        else:
-            self._attr_installed_version = None
+        self.version = None
+        self._attr_installed_version = f"{build}" if build is not None else None
 
         # Fetch latest version from GitHub
         session = async_get_clientsession(self.hass)
