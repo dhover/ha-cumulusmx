@@ -53,6 +53,9 @@ class CumulusMXCoordinator(DataUpdateCoordinator):
             update_interval=update_interval,
         )
 
+
+
+
     async def async_reload_config(self):
         """Reload configuration from config entry."""
         self.host = self.config_entry.options.get(CONF_HOST, self.config_entry.data.get(CONF_HOST))
