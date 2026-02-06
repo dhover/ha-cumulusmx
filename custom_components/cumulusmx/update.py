@@ -19,7 +19,7 @@ class CumulusMXUpdateEntity(UpdateEntity):
         self.coordinator = coordinator
         self._attr_latest_version = None
         self._attr_installed_version = None
-        self._attr_title = "CumulusMX Software"
+        self._attr_title = "CumulusMX Hub"
         self.version = None
 
     async def async_update(self):
