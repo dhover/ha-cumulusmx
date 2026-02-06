@@ -78,6 +78,7 @@ class CumulusMXUpdateEntity(UpdateEntity):
             name="CumulusMX Software",
             manufacturer="CumulusMX",
             model="Software",
+            configuration_url=f"http://{self.coordinator.host}:{self.coordinator.port}",
             #hw_version=hardware.get("revision", ""),
             #serial_number=serial_number,
             sw_version=f"{version} build {build}",

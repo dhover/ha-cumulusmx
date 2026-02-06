@@ -13,7 +13,7 @@ from homeassistant.const import (
     UnitOfSpeed
 )
 
-from .const import SENSOR_TYPES
+from .const import SENSOR_TYPES, DOMAIN
 from .coordinator import CumulusMXCoordinator
 
 _LOGGER = logging.getLogger(__name__)
@@ -24,30 +24,34 @@ _LOGGER = logging.getLogger(__name__)
 def get_device_info(device_type, host, port, entry_id):
     """Return device info based on device type."""
     device_identifier = f"{entry_id}_{device_type}"
+    hub_identifier = (DOMAIN, entry_id)
 
     if device_type == "airlink":
         return {
-            "identifiers": {("cumulusmx", device_identifier)},
+            "identifiers": {(DOMAIN, device_identifier)},
             "name": "Davis Airlink",
             "manufacturer": "Davis",
             "model": "Airlink",
-            "configuration_url": f"http://{host}:{port}"
+            "configuration_url": f"http://{host}:{port}",
+            "via_device": hub_identifier
         }
     elif device_type == "system":
         return {
-            "identifiers": {("cumulusmx", device_identifier)},
+            "identifiers": {(DOMAIN, device_identifier)},
             "name": "CumulusMX System Info",
             "manufacturer": "CumulusMX",
             "model": "System Info",
-            "configuration_url": f"http://{host}:{port}"
+            "configuration_url": f"http://{host}:{port}",
+            "via_device": hub_identifier
         }
     else:
         return {
-            "identifiers": {("cumulusmx", device_identifier)},
+            "identifiers": {(DOMAIN, device_identifier)},
             "name": "Davis Vantage Pro 2",
             "manufacturer": "Davis",
             "model": "Vantage Pro 2",
-            "configuration_url": f"http://{host}:{port}"
+            "configuration_url": f"http://{host}:{port}",
+            "via_device": hub_identifier
         }
 
 
