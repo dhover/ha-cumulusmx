@@ -21,12 +21,13 @@ _LOGGER = logging.getLogger(__name__)
 # Device info definitions
 
 
-def get_device_info(device_type, host, port):
+def get_device_info(device_type, host, port, entry_id):
     """Return device info based on device type."""
+    device_identifier = f"{entry_id}_{device_type}"
 
     if device_type == "airlink":
         return {
-            "identifiers": {("cumulusmx", "airlink")},
+            "identifiers": {("cumulusmx", device_identifier)},
             "name": "Davis Airlink",
             "manufacturer": "Davis",
             "model": "Airlink",
@@ -34,7 +35,7 @@ def get_device_info(device_type, host, port):
         }
     elif device_type == "system":
         return {
-            "identifiers": {("cumulusmx", "system")},
+            "identifiers": {("cumulusmx", device_identifier)},
             "name": "CumulusMX System Info",
             "manufacturer": "CumulusMX",
             "model": "System Info",
@@ -42,7 +43,7 @@ def get_device_info(device_type, host, port):
         }
     else:
         return {
-            "identifiers": {("cumulusmx", "weather")},
+            "identifiers": {("cumulusmx", device_identifier)},
             "name": "Davis Vantage Pro 2",
             "manufacturer": "Davis",
             "model": "Vantage Pro 2",
@@ -152,6 +153,7 @@ class CumulusMXSensor(CoordinatorEntity, SensorEntity):
         self._device_type = device_type
         self._host = coordinator.host
         self._port = coordinator.port
+        self._entry_id = coordinator.config_entry.entry_id
 
     @property
     def name(self):
@@ -167,8 +169,12 @@ class CumulusMXSensor(CoordinatorEntity, SensorEntity):
         if isinstance(value, str) and "," in value:
             try:
                 # Try converting to float after replacing comma
-                float(value.replace(",", "."))
-                return value.replace(",", ".")
+                return float(value.replace(",", "."))
+            except ValueError:
+                pass
+        if isinstance(value, str):
+            try:
+                return float(value)
             except ValueError:
                 pass
         return value
@@ -177,7 +183,7 @@ class CumulusMXSensor(CoordinatorEntity, SensorEntity):
     def unique_id(self):
         """Return a unique ID."""
         # Voeg device_type en host toe voor extra uniekheid
-        return f"cumulusmx_{self._device_type}_{self._key}"
+        return f"cumulusmx_{self._entry_id}_{self._device_type}_{self._key}"
 
     @property
     def native_unit_of_measurement(self):
@@ -203,7 +209,7 @@ class CumulusMXSensor(CoordinatorEntity, SensorEntity):
     @property
     def device_info(self):
         """Return device information."""
-        return get_device_info(self._device_type, self._host, self._port)
+        return get_device_info(self._device_type, self._host, self._port, self._entry_id)
 
     @property
     def icon(self):

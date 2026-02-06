@@ -1,9 +1,8 @@
 """Support for CumulusMX software update entity."""
 
-import aiohttp
-
 from homeassistant.components.update import UpdateEntity
 from homeassistant.helpers.entity import DeviceInfo
+from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from .const import DOMAIN,GITHUB_API_URL
 
 
@@ -26,21 +25,30 @@ class CumulusMXUpdateEntity(UpdateEntity):
     async def async_update(self):
         """Fetch the latest version information from GitHub."""
         await self.coordinator.async_refresh()
-        self._attr_installed_version = f"{self.coordinator.data.get('build')}"
-        self.version = f"{self.coordinator.data.get('version')}"
+        build = self.coordinator.data.get("build")
+        version = self.coordinator.data.get("version")
+        self.version = f"{version}" if version is not None else None
+        if version is not None and build is not None:
+            self._attr_installed_version = f"{version} (build {build})"
+        elif version is not None:
+            self._attr_installed_version = f"{version}"
+        elif build is not None:
+            self._attr_installed_version = f"build {build}"
+        else:
+            self._attr_installed_version = None
 
         # Fetch latest version from GitHub
-        async with aiohttp.ClientSession() as session:
-            async with session.get(GITHUB_API_URL) as resp:
-                if resp.status == 200:
-                    data = await resp.json()
-                    tag = data.get("tag_name", "")
-                    # Strip leading 'b' if present
-                    if tag.startswith("b"):
-                        tag = tag[1:]
-                    self._attr_latest_version = tag
-                else:
-                    self._attr_latest_version = None
+        session = async_get_clientsession(self.hass)
+        async with session.get(GITHUB_API_URL) as resp:
+            if resp.status == 200:
+                data = await resp.json()
+                tag = data.get("tag_name", "")
+                # Strip leading 'b' if present
+                if tag.startswith("b"):
+                    tag = tag[1:]
+                self._attr_latest_version = tag
+            else:
+                self._attr_latest_version = None
 
     @property
     def installed_version(self):
