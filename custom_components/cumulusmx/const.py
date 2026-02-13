@@ -7,6 +7,7 @@ from homeassistant.const import (
     UnitOfLength,
     UnitOfSpeed,
     UnitOfVolumetricFlux,
+    UnitOfIrradiance,
     CONCENTRATION_MICROGRAMS_PER_CUBIC_METER,
     PERCENTAGE,
     DEGREE,
@@ -373,7 +374,7 @@ SENSOR_TYPES = {
         "device": "weather", "name": "Solar Radiation",
         "device_class": SensorDeviceClass.IRRADIANCE,
         "state_class": SensorStateClass.MEASUREMENT,
-        "unit": None,
+        "unit": UnitOfIrradiance.WATTS_PER_SQUARE_METER,
     },
     "UV": {
         "device": "weather", "name": "UV Index",
