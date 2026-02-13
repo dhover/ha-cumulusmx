@@ -39,6 +39,8 @@ DEFAULT_WEBTAGS = [
     "bearing",
     "avgbearing",
     "LastRainTipISO",
+    "SolarRad",
+    "UV",
     "AirLinkPm1Out",
     "AirLinkPm2p5Out",
     "AirLinkPm2p5_1hrOut",
@@ -397,6 +399,18 @@ SENSOR_TYPES = {
         "device_class": SensorDeviceClass.HUMIDITY,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": PERCENTAGE,
+    },
+    "solarrad": {
+        "device": "weather", "name": "Solar Radiation",
+        "device_class": SensorDeviceClass.IRRADIANCE,
+        "state_class": SensorStateClass.MEASUREMENT,
+        "unit": "",
+    },
+    "uv": {
+        "device": "weather", "name": "UV Index",
+        "device_class": "",
+        "state_class": SensorStateClass.MEASUREMENT,
+        "unit": "",
     },
 }
 
