@@ -58,7 +58,6 @@ def get_device_info(device_type, host, port, entry_id):
 def get_device_type(key):
     """Return device type based on sensor key."""
 
-    # Use airlink device type if the key is in SENSOR_TYPES_AIRLINK
     if key in SENSOR_TYPES:
         device_type = SENSOR_TYPES.get(key, {}).get("device", "weather")
         return device_type

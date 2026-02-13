@@ -39,43 +39,12 @@ DEFAULT_WEBTAGS = [
     "bearing",
     "avgbearing",
     "LastRainTipISO",
-    "SolarRad",
-    "UV",
-    "AirLinkPm1Out",
-    "AirLinkPm2p5Out",
-    "AirLinkPm2p5_1hrOut",
-    "AirLinkPm2p5_3hrOut",
-    "AirLinkPm2p5_24hrOut",
-    "AirLinkPm2p5_NowcastOut",
-    "AirLinkPm10Out",
-    "AirLinkPm10_1hrOut",
-    "AirLinkPm10_3hrOut",
-    "AirLinkPm10_24hrOut",
-    "AirLinkPm10_NowcastOut",
-    "AirLinkAqiPm2p5Out",
-    "AirLinkAqiPm2p5_1hrOut",
-    "AirLinkAqiPm2p5_3hrOut",
-    "AirLinkAqiPm2p5_24hrOut",
-    "AirLinkAqiPm2p5_NowcastOut",
-    "AirLinkAqiPm10Out",
-    "AirLinkAqiPm10_1hrOut",
-    "AirLinkAqiPm10_3hrOut",
-    "AirLinkAqiPm10_24hrOut",
-    "AirLinkAqiPm10_NowcastOut",
-    "AirLinkTempOut",
-    "AirLinkHumOut",
-    "MulticastGoodCnt",
-    "MulticastBadCnt",
-    "MulticastGoodPct",
     "ProgramUpTime",
     "SystemUpTime",
     "timehhmmss",
-    "txbattery channel=1",
-    "txbattery channel=2",
-    "intemp",
-    "inhum",
 ]
 EXTRA_WEBTAGS = ["version","build","tempunit", "pressunit", "rainunit", "windunit"]
+NON_SELECTABLE_WEBTAGS = set(EXTRA_WEBTAGS)
 
 DEFAULT_UPDATE_INTERVAL = 60
 
@@ -85,139 +54,139 @@ GITHUB_API_URL = "https://api.github.com/repos/cumulusmx/cumulusmx/releases/late
 
 SENSOR_TYPES = {
     # Sensors for Airlink device
-    "airlinkpm1out": {
+    "AirLinkPm1Out": {
         "device": "airlink", "name": "PM 1.0",
         "device_class": SensorDeviceClass.PM1,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
     },
-    "airlinkpm2p5out": {
+    "AirLinkPm2p5Out": {
         "device": "airlink", "name": "PM 2.5",
         "device_class": SensorDeviceClass.PM25,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
     },
-    "airlinkpm2p5_1hrout": {
+    "AirLinkPm2p5_1hrOut": {
         "device": "airlink", "name": "PM 2.5 1h",
         "device_class": SensorDeviceClass.PM25,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
     },
-    "airlinkpm2p5_3hrout": {
+    "AirLinkPm2p5_3hrOut": {
         "device": "airlink", "name": "PM 2.5 3h",
         "device_class": SensorDeviceClass.PM25,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
     },
-    "airlinkpm2p5_24hrout": {
+    "AirLinkPm2p5_24hrOut": {
         "device": "airlink", "name": "PM 2.5 24h",
         "device_class": SensorDeviceClass.PM25,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
     },
-    "airlinkpm2p5_nowcastout": {
+    "AirLinkPm2p5_NowcastOut": {
         "device": "airlink", "name": "Pm 2.5 Nowcast",
         "device_class": SensorDeviceClass.PM25,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
     },
-    "airlinkpm10out": {
+    "AirLinkPm10Out": {
         "device": "airlink", "name": "PM 10",
         "device_class": SensorDeviceClass.PM10,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
     },
-    "airlinkpm10_1hrout": {
+    "AirLinkPm10_1hrOut": {
         "device": "airlink", "name": "PM 10 1h",
         "device_class": SensorDeviceClass.PM10,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
     },
-    "airlinkpm10_3hrout": {
+    "AirLinkPm10_3hrOut": {
         "device": "airlink", "name": "PM 10 3h",
         "device_class": SensorDeviceClass.PM10,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
     },
-    "airlinkpm10_24hrout": {
+    "AirLinkPm10_24hrOut": {
         "device": "airlink", "name": "PM 10 24h",
         "device_class": SensorDeviceClass.PM10,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
     },
-    "airlinkpm10_nowcastout": {
+    "AirLinkPm10_NowcastOut": {
         "device": "airlink", "name": "PM 10 Nowcast",
         "device_class": SensorDeviceClass.PM10,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
     },
-    "airlinkaqipm2p5out": {
+    "AirLinkAqiPm2p5Out": {
         "device": "airlink", "name": "PM 2.5 AQI",
         "device_class": SensorDeviceClass.AQI,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": None
     },
-    "airlinkaqipm2p5_1hrout": {
+    "AirLinkAqiPm2p5_1hrOut": {
         "device": "airlink", "name": "PM 2.5 AQI 1h",
         "device_class": SensorDeviceClass.AQI,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": None
     },
-    "airlinkaqipm2p5_3hrout": {
+    "AirLinkAqiPm2p5_3hrOut": {
         "device": "airlink", "name": "PM 2.5 AQI 3h",
         "device_class": SensorDeviceClass.AQI,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": None
     },
-    "airlinkaqipm2p5_24hrout": {
+    "AirLinkAqiPm2p5_24hrOut": {
         "device": "airlink", "name": "PM 2.5 AQI 24h",
         "device_class": SensorDeviceClass.AQI,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": None
     },
-    "airlinkaqipm2p5_nowcastout": {
+    "AirLinkAqiPm2p5_NowcastOut": {
         "device": "airlink", "name": "PM 2.5 AQI Nowcast",
         "device_class": SensorDeviceClass.AQI,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": None
     },
-    "airlinkaqipm10out": {
+    "AirLinkAqiPm10Out": {
         "device": "airlink", "name": "PM 10 AQI",
         "device_class": SensorDeviceClass.AQI,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": None
     },
-    "airlinkaqipm10_1hrout": {
+    "AirLinkAqiPm10_1hrOut": {
         "device": "airlink", "name": "PM 10 AQI 1h",
         "device_class": SensorDeviceClass.AQI,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": None
     },
-    "airlinkaqipm10_3hrout": {
+    "AirLinkAqiPm10_3hrOut": {
         "device": "airlink", "name": "PM 10 AQI 3h",
         "device_class": SensorDeviceClass.AQI,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": None
     },
-    "airlinkaqipm10_24hrout": {
+    "AirLinkAqiPm10_24hrOut": {
         "device": "airlink", "name": "PM 10 AQI 24h",
         "device_class": SensorDeviceClass.AQI,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": None
     },
-    "airlinkaqipm10_nowcastout": {
+    "AirLinkAqiPm10_NowcastOut": {
         "device": "airlink", "name": "PM 10 AQI Nowcast",
         "device_class": SensorDeviceClass.AQI,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": None
     },
-    "airlinkhumout": {
+    "AirLinkHumOut": {
         "device": "airlink", "name": "Humidity",
         "device_class": SensorDeviceClass.HUMIDITY,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": PERCENTAGE
     },
-    "airlinktempout": {
+    "AirLinkTempOut": {
         "device": "airlink", "name": "Temperature",
         "device_class": SensorDeviceClass.TEMPERATURE,
         "state_class": SensorStateClass.MEASUREMENT,
@@ -231,35 +200,35 @@ SENSOR_TYPES = {
         "unit": None,
         "icon": "mdi:tools"
     },
-    "multicastbadcnt": {
+    "MulticastBadCnt": {
         "device": "system", "name": "Bad packets",
         "device_class": None,
         "state_class": SensorStateClass.TOTAL_INCREASING,
         "unit": None,
         "icon": "mdi:alert"
     },
-    "multicastgoodcnt": {
+    "MulticastGoodCnt": {
         "device": "system", "name": "Good packets",
         "device_class": None,
         "state_class": SensorStateClass.TOTAL_INCREASING,
         "unit": None,
         "icon": "mdi:check-circle"
     },
-    "multicastgoodpct": {
+    "MulticastGoodPct": {
         "device": "system", "name": "Good packets percent",
         "device_class": None,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": PERCENTAGE,
         "icon": "mdi:percent"
     },
-    "programuptime": {
+    "ProgramUpTime": {
         "device": "system", "name": "Uptime",
         "device_class": None,
         "state_class": None,
         "unit": None,
         "icon": "mdi:clock-outline"
     },
-    "systemuptime": {
+    "SystemUpTime": {
         "device": "system", "name": "System Uptime",
         "device_class": None,
         "state_class": None,
@@ -325,7 +294,7 @@ SENSOR_TYPES = {
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": PERCENTAGE
     },
-    "lastraintipiso": {
+    "LastRainTipISO": {
         "device": "weather", "name": "Last Rain Tip",
         "device_class": None,
         "state_class": None,
@@ -388,7 +357,7 @@ SENSOR_TYPES = {
         "unit": None,
         "icon": "mdi:compass"
     },
-        "intemp": {
+    "intemp": {
         "device": "weather", "name": "Indoor Temperature",
         "device_class": SensorDeviceClass.TEMPERATURE,
         "state_class": SensorStateClass.MEASUREMENT,
@@ -400,19 +369,30 @@ SENSOR_TYPES = {
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": PERCENTAGE,
     },
-    "solarrad": {
+    "SolarRad": {
         "device": "weather", "name": "Solar Radiation",
         "device_class": SensorDeviceClass.IRRADIANCE,
         "state_class": SensorStateClass.MEASUREMENT,
-        "unit": "",
+        "unit": None,
     },
-    "uv": {
+    "UV": {
         "device": "weather", "name": "UV Index",
         "device_class": "",
         "state_class": SensorStateClass.MEASUREMENT,
-        "unit": "",
+        "unit": None,
     },
 }
+
+# Complete list of known webtags for selector choices.
+ALL_WEBTAG_OPTIONS = []
+_webtag_options_seen = set()
+for _webtag in [*DEFAULT_WEBTAGS, *SENSOR_TYPES.keys()]:
+    if _webtag in NON_SELECTABLE_WEBTAGS:
+        continue
+    if _webtag in _webtag_options_seen:
+        continue
+    _webtag_options_seen.add(_webtag)
+    ALL_WEBTAG_OPTIONS.append(_webtag)
 
 
 def normalize_webtags(webtags) -> list[str]:
@@ -437,6 +417,14 @@ def normalize_webtags(webtags) -> list[str]:
     return normalized
 
 
+def normalize_configurable_webtags(webtags) -> list[str]:
+    """Normalize user-configurable webtags and remove always-added tags."""
+    return [
+        tag for tag in normalize_webtags(webtags)
+        if tag not in NON_SELECTABLE_WEBTAGS
+    ]
+
+
 def create_sensor_post_body(keys) -> dict:
     """
     Given a list or comma-separated string of keys, return a dictionary
@@ -444,6 +432,6 @@ def create_sensor_post_body(keys) -> dict:
     Example: ["temp", "hum", "dew"] -> {"temp": "<#temp>", "hum": "<#hum>", "dew": "<#dew>"}
     """
     return {
-        key.strip().lower(): f"<#{key.strip()}>"
+        key.strip(): f"<#{key.strip()}>"
         for key in normalize_webtags(keys)
     }
