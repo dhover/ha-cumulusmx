@@ -5,6 +5,7 @@ import logging
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.components.sensor import SensorDeviceClass
+from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.const import (
     UnitOfTemperature,
     UnitOfPressure,
@@ -27,32 +28,32 @@ def get_device_info(device_type, host, port, entry_id):
     hub_identifier = (DOMAIN, entry_id)
 
     if device_type == "airlink":
-        return {
-            "identifiers": {(DOMAIN, device_identifier)},
-            "name": "Davis Airlink",
-            "manufacturer": "Davis",
-            "model": "Airlink",
-            "configuration_url": f"http://{host}:{port}",
-            "via_device": hub_identifier
-        }
+        return DeviceInfo(
+            identifiers={(DOMAIN, device_identifier)},
+            translation_key="airlink",
+            manufacturer="Davis",
+            model="AirLink",
+            configuration_url=f"http://{host}:{port}",
+            via_device=hub_identifier,
+        )
     elif device_type == "system":
-        return {
-            "identifiers": {(DOMAIN, device_identifier)},
-            "name": "CumulusMX System Info",
-            "manufacturer": "CumulusMX",
-            "model": "System Info",
-            "configuration_url": f"http://{host}:{port}",
-            "via_device": hub_identifier
-        }
+        return DeviceInfo(
+            identifiers={(DOMAIN, device_identifier)},
+            translation_key="system",
+            manufacturer="CumulusMX",
+            model="System Info",
+            configuration_url=f"http://{host}:{port}",
+            via_device=hub_identifier,
+        )
     else:
-        return {
-            "identifiers": {(DOMAIN, device_identifier)},
-            "name": "Davis Vantage Pro 2",
-            "manufacturer": "Davis",
-            "model": "Vantage Pro 2",
-            "configuration_url": f"http://{host}:{port}",
-            "via_device": hub_identifier
-        }
+        return DeviceInfo(
+            identifiers={(DOMAIN, device_identifier)},
+            translation_key="weather_station",
+            manufacturer="Davis",
+            model="Vantage Pro 2",
+            configuration_url=f"http://{host}:{port}",
+            via_device=hub_identifier,
+        )
 
 
 def get_device_type(key):

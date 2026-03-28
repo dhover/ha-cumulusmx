@@ -71,7 +71,7 @@ class CumulusMXUpdateEntity(UpdateEntity):
         build = self._attr_installed_version or ""
         return DeviceInfo(
             identifiers={(DOMAIN, self.coordinator.config_entry.entry_id)},
-            name="CumulusMX Hub",
+            translation_key="hub",
             manufacturer="CumulusMX",
             model="Hub",
             configuration_url=f"http://{self.coordinator.host}:{self.coordinator.port}",

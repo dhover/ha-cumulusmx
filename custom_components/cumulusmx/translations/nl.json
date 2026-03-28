@@ -1,4 +1,18 @@
 {
+  "device": {
+    "hub": {
+      "name": "CumulusMX-hub"
+    },
+    "weather_station": {
+      "name": "Weerstation"
+    },
+    "system": {
+      "name": "Systeeminformatie"
+    },
+    "airlink": {
+      "name": "Davis AirLink"
+    }
+  },
   "entity": {
     "sensor": {
       "air_link_pm1_out": {
