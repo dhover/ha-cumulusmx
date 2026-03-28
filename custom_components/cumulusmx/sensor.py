@@ -22,7 +22,31 @@ _LOGGER = logging.getLogger(__name__)
 # Device info definitions
 
 
-def get_device_info(device_type, host, port, entry_id):
+def get_station_manufacturer(station_type: str | None) -> str:
+    """Infer the station manufacturer from the station type."""
+    if not station_type:
+        return "Unknown"
+
+    station_type_lower = station_type.lower()
+    manufacturer_map = {
+        "davis": "Davis",
+        "ecowitt": "Ecowitt",
+        "fine offset": "Fine Offset",
+        "froggit": "Froggit",
+        "oregon": "Oregon Scientific",
+        "lacrosse": "La Crosse",
+        "la crosse": "La Crosse",
+        "instromet": "Instromet",
+    }
+
+    for match, manufacturer in manufacturer_map.items():
+        if match in station_type_lower:
+            return manufacturer
+
+    return station_type.split()[0]
+
+
+def get_device_info(device_type, host, port, entry_id, station_type=None):
     """Return device info based on device type."""
     device_identifier = f"{entry_id}_{device_type}"
     hub_identifier = (DOMAIN, entry_id)
@@ -46,11 +70,15 @@ def get_device_info(device_type, host, port, entry_id):
             via_device=hub_identifier,
         )
     else:
+        station_name = station_type or "Weather station"
         return DeviceInfo(
             identifiers={(DOMAIN, device_identifier)},
             translation_key="weather_station",
-            manufacturer="Davis",
-            model="Vantage Pro 2",
+            translation_placeholders={
+                "station_type": station_name,
+            },
+            manufacturer=get_station_manufacturer(station_name),
+            model=station_name,
             configuration_url=f"http://{host}:{port}",
             via_device=hub_identifier,
         )
@@ -211,7 +239,13 @@ class CumulusMXSensor(CoordinatorEntity, SensorEntity):
     @property
     def device_info(self):
         """Return device information."""
-        return get_device_info(self._device_type, self._host, self._port, self._entry_id)
+        return get_device_info(
+            self._device_type,
+            self._host,
+            self._port,
+            self._entry_id,
+            self.coordinator.data.get("stationtype") if self.coordinator.data else None,
+        )
 
     @property
     def icon(self):

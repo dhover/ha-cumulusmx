@@ -4,7 +4,7 @@
       "name": "CumulusMX Hub"
     },
     "weather_station": {
-      "name": "Weather station"
+      "name": "{station_type}"
     },
     "system": {
       "name": "System info"

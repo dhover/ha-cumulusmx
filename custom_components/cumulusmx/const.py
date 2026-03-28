@@ -46,7 +46,15 @@ DEFAULT_WEBTAGS = [
     "SystemUpTime",
     "timehhmmss",
 ]
-EXTRA_WEBTAGS = ["version","build","tempunit", "pressunit", "rainunit", "windunit"]
+EXTRA_WEBTAGS = [
+    "version",
+    "build",
+    "tempunit",
+    "pressunit",
+    "rainunit",
+    "windunit",
+    "stationtype",
+]
 NON_SELECTABLE_WEBTAGS = set(EXTRA_WEBTAGS)
 
 DEFAULT_UPDATE_INTERVAL = 60
