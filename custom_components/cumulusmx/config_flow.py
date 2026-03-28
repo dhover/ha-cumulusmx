@@ -26,6 +26,11 @@ def _build_options_schema() -> vol.Schema:
     })
 
 
+def _build_entry_title(user_input: dict) -> str:
+    """Build the config entry title."""
+    return f"{user_input[CONF_HOST]}:{user_input[CONF_PORT]}"
+
+
 class CumulusMXConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a CumulusMX config flow."""
 
@@ -41,7 +46,10 @@ class CumulusMXConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             )
             if not user_input[CONF_WEBTAGS]:
                 user_input[CONF_WEBTAGS] = DEFAULT_WEBTAGS
-            return self.async_create_entry(title="CumulusMX", data=user_input)
+            return self.async_create_entry(
+                title=_build_entry_title(user_input),
+                data=user_input,
+            )
 
         return self.async_show_form(
             step_id="user",
