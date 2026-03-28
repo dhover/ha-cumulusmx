@@ -157,10 +157,13 @@ class CumulusMXSensor(CoordinatorEntity, SensorEntity):
         self._host = coordinator.host
         self._port = coordinator.port
         self._entry_id = coordinator.config_entry.entry_id
+        self._attr_translation_key = sensor_info.get("translation_key")
 
     @property
     def name(self):
-        """Return the name of the sensor."""    
+        """Return the fallback name of the sensor."""
+        if self.translation_key:
+            return None
         return self._sensor_info.get("name", self._key)
 
     @property

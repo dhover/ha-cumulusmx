@@ -1,5 +1,7 @@
 """Constants for the CumulusMX integration."""
 
+import re
+
 from homeassistant.components.sensor import SensorDeviceClass, SensorStateClass
 from homeassistant.const import (
     UnitOfTemperature,
@@ -53,212 +55,252 @@ DEFAULT_UPDATE_INTERVAL = 60
 SENSOR_API_URL = "http://{host}:{port}/api/tags/process.txt"
 GITHUB_API_URL = "https://api.github.com/repos/cumulusmx/cumulusmx/releases/latest"
 
+
+def build_translation_key(key: str) -> str:
+    """Convert a sensor key to a Home Assistant translation key."""
+    normalized = re.sub(r"([a-z0-9])([A-Z])", r"\1_\2", key)
+    normalized = re.sub(r"[^a-zA-Z0-9]+", "_", normalized)
+    return normalized.strip("_").lower()
+
 SENSOR_TYPES = {
     # Sensors for Airlink device
     "AirLinkPm1Out": {
-        "device": "airlink", "name": "PM 1.0",
+        "device": "airlink",
+        "name": "PM 1.0",
         "device_class": SensorDeviceClass.PM1,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
     },
     "AirLinkPm2p5Out": {
-        "device": "airlink", "name": "PM 2.5",
+        "device": "airlink",
+        "name": "PM 2.5",
         "device_class": SensorDeviceClass.PM25,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
     },
     "AirLinkPm2p5_1hrOut": {
-        "device": "airlink", "name": "PM 2.5 1h",
+        "device": "airlink",
+        "name": "PM 2.5 1h",
         "device_class": SensorDeviceClass.PM25,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
     },
     "AirLinkPm2p5_3hrOut": {
-        "device": "airlink", "name": "PM 2.5 3h",
+        "device": "airlink",
+        "name": "PM 2.5 3h",
         "device_class": SensorDeviceClass.PM25,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
     },
     "AirLinkPm2p5_24hrOut": {
-        "device": "airlink", "name": "PM 2.5 24h",
+        "device": "airlink",
+        "name": "PM 2.5 24h",
         "device_class": SensorDeviceClass.PM25,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
     },
     "AirLinkPm2p5_NowcastOut": {
-        "device": "airlink", "name": "Pm 2.5 Nowcast",
+        "device": "airlink",
+        "name": "Pm 2.5 Nowcast",
         "device_class": SensorDeviceClass.PM25,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
     },
     "AirLinkPm10Out": {
-        "device": "airlink", "name": "PM 10",
+        "device": "airlink",
+        "name": "PM 10",
         "device_class": SensorDeviceClass.PM10,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
     },
     "AirLinkPm10_1hrOut": {
-        "device": "airlink", "name": "PM 10 1h",
+        "device": "airlink",
+        "name": "PM 10 1h",
         "device_class": SensorDeviceClass.PM10,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
     },
     "AirLinkPm10_3hrOut": {
-        "device": "airlink", "name": "PM 10 3h",
+        "device": "airlink",
+        "name": "PM 10 3h",
         "device_class": SensorDeviceClass.PM10,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
     },
     "AirLinkPm10_24hrOut": {
-        "device": "airlink", "name": "PM 10 24h",
+        "device": "airlink",
+        "name": "PM 10 24h",
         "device_class": SensorDeviceClass.PM10,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
     },
     "AirLinkPm10_NowcastOut": {
-        "device": "airlink", "name": "PM 10 Nowcast",
+        "device": "airlink",
+        "name": "PM 10 Nowcast",
         "device_class": SensorDeviceClass.PM10,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
     },
     "AirLinkAqiPm2p5Out": {
-        "device": "airlink", "name": "PM 2.5 AQI",
+        "device": "airlink",
+        "name": "PM 2.5 AQI",
         "device_class": SensorDeviceClass.AQI,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": None
     },
     "AirLinkAqiPm2p5_1hrOut": {
-        "device": "airlink", "name": "PM 2.5 AQI 1h",
+        "device": "airlink",
+        "name": "PM 2.5 AQI 1h",
         "device_class": SensorDeviceClass.AQI,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": None
     },
     "AirLinkAqiPm2p5_3hrOut": {
-        "device": "airlink", "name": "PM 2.5 AQI 3h",
+        "device": "airlink",
+        "name": "PM 2.5 AQI 3h",
         "device_class": SensorDeviceClass.AQI,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": None
     },
     "AirLinkAqiPm2p5_24hrOut": {
-        "device": "airlink", "name": "PM 2.5 AQI 24h",
+        "device": "airlink",
+        "name": "PM 2.5 AQI 24h",
         "device_class": SensorDeviceClass.AQI,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": None
     },
     "AirLinkAqiPm2p5_NowcastOut": {
-        "device": "airlink", "name": "PM 2.5 AQI Nowcast",
+        "device": "airlink",
+        "name": "PM 2.5 AQI Nowcast",
         "device_class": SensorDeviceClass.AQI,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": None
     },
     "AirLinkAqiPm10Out": {
-        "device": "airlink", "name": "PM 10 AQI",
+        "device": "airlink",
+        "name": "PM 10 AQI",
         "device_class": SensorDeviceClass.AQI,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": None
     },
     "AirLinkAqiPm10_1hrOut": {
-        "device": "airlink", "name": "PM 10 AQI 1h",
+        "device": "airlink",
+        "name": "PM 10 AQI 1h",
         "device_class": SensorDeviceClass.AQI,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": None
     },
     "AirLinkAqiPm10_3hrOut": {
-        "device": "airlink", "name": "PM 10 AQI 3h",
+        "device": "airlink",
+        "name": "PM 10 AQI 3h",
         "device_class": SensorDeviceClass.AQI,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": None
     },
     "AirLinkAqiPm10_24hrOut": {
-        "device": "airlink", "name": "PM 10 AQI 24h",
+        "device": "airlink",
+        "name": "PM 10 AQI 24h",
         "device_class": SensorDeviceClass.AQI,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": None
     },
     "AirLinkAqiPm10_NowcastOut": {
-        "device": "airlink", "name": "PM 10 AQI Nowcast",
+        "device": "airlink",
+        "name": "PM 10 AQI Nowcast",
         "device_class": SensorDeviceClass.AQI,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": None
     },
     "AirLinkHumOut": {
-        "device": "airlink", "name": "Humidity",
+        "device": "airlink",
+        "name": "Humidity",
         "device_class": SensorDeviceClass.HUMIDITY,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": PERCENTAGE
     },
     "AirLinkTempOut": {
-        "device": "airlink", "name": "Temperature",
+        "device": "airlink",
+        "name": "Temperature",
         "device_class": SensorDeviceClass.TEMPERATURE,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": UnitOfTemperature.CELSIUS
     },
     # Sensors for System Info device
     "build": {
-        "device": "system", "name": "Build",
+        "device": "system",
+        "name": "Build",
         "device_class": None,
         "state_class": None,
         "unit": None,
         "icon": "mdi:tools"
     },
     "MulticastBadCnt": {
-        "device": "system", "name": "Bad packets",
+        "device": "system",
+        "name": "Bad packets",
         "device_class": None,
         "state_class": SensorStateClass.TOTAL_INCREASING,
         "unit": None,
         "icon": "mdi:alert"
     },
     "MulticastGoodCnt": {
-        "device": "system", "name": "Good packets",
+        "device": "system",
+        "name": "Good packets",
         "device_class": None,
         "state_class": SensorStateClass.TOTAL_INCREASING,
         "unit": None,
         "icon": "mdi:check-circle"
     },
     "MulticastGoodPct": {
-        "device": "system", "name": "Good packets percent",
+        "device": "system",
+        "name": "Good packets percent",
         "device_class": None,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": PERCENTAGE,
         "icon": "mdi:percent"
     },
     "ProgramUpTime": {
-        "device": "system", "name": "Uptime",
+        "device": "system",
+        "name": "Uptime",
         "device_class": None,
         "state_class": None,
         "unit": None,
         "icon": "mdi:clock-outline"
     },
     "SystemUpTime": {
-        "device": "system", "name": "System Uptime",
+        "device": "system",
+        "name": "System Uptime",
         "device_class": None,
         "state_class": None,
         "unit": None,
         "icon": "mdi:clock-outline"
     },
     "timehhmmss": {
-        "device": "system", "name": "Time",
+        "device": "system",
+        "name": "Time",
         "device_class": None,
         "state_class": None,
         "unit": None,
         "icon": "mdi:clock-time-four-outline"
     },
     "txbattery channel=1": {
-        "device": "system", "name": "Battery ISS 1",
+        "device": "system",
+        "name": "Battery ISS 1",
         "device_class": None,
         "state_class": None,
         "unit": None,
         "icon": "mdi:battery-outline"
     },
     "txbattery channel=2": {
-        "device": "system", "name": "Battery ISS 2",
+        "device": "system",
+        "name": "Battery ISS 2",
         "device_class": None,
         "state_class": None,
         "unit": None,
         "icon": "mdi:battery-outline"
     },
     "version": {
-        "device": "system", "name": "Version",
+        "device": "system",
+        "name": "Version",
         "device_class": None,
         "state_class": None,
         "unit": None,
@@ -266,123 +308,145 @@ SENSOR_TYPES = {
     },
     # Sensors for Weather device (the rest)
     "avgbearing": {
-        "device": "weather", "name": "Average Bearing",
+        "device": "weather",
+        "name": "Average Bearing",
         "device_class": SensorDeviceClass.WIND_DIRECTION,
         "state_class": SensorStateClass.MEASUREMENT_ANGLE,
         "unit": DEGREE
     },
     "bearing": {
-        "device": "weather", "name": "Bearing",
+        "device": "weather",
+        "name": "Bearing",
         "device_class": SensorDeviceClass.WIND_DIRECTION,
         "state_class": SensorStateClass.MEASUREMENT_ANGLE,
         "unit": DEGREE
     },
     "dew": {
-        "device": "weather", "name": "Dew Point",
+        "device": "weather",
+        "name": "Dew Point",
         "device_class": SensorDeviceClass.TEMPERATURE,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": UnitOfTemperature.CELSIUS
     },
     "heatindex": {
-        "device": "weather", "name": "Heat Index",
+        "device": "weather",
+        "name": "Heat Index",
         "device_class": SensorDeviceClass.TEMPERATURE,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": UnitOfTemperature.CELSIUS
     },
     "hum": {
-        "device": "weather", "name": "Humidity",
+        "device": "weather",
+        "name": "Humidity",
         "device_class": SensorDeviceClass.HUMIDITY,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": PERCENTAGE
     },
     "LastRainTipISO": {
-        "device": "weather", "name": "Last Rain Tip",
+        "device": "weather",
+        "name": "Last Rain Tip",
         "device_class": None,
         "state_class": None,
         "unit": None,
         "icon": "mdi:weather-rainy"
     },
     "temp": {
-        "device": "weather", "name": "Temperature",
+        "device": "weather",
+        "name": "Temperature",
         "device_class": SensorDeviceClass.TEMPERATURE,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": UnitOfTemperature.CELSIUS
     },
     "press": {
-        "device": "weather", "name": "Pressure",
+        "device": "weather",
+        "name": "Pressure",
         "device_class": SensorDeviceClass.PRESSURE,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": UnitOfPressure.HPA
     },
     "rfall": {
-        "device": "weather", "name": "Rainfall",
+        "device": "weather",
+        "name": "Rainfall",
         "device_class": SensorDeviceClass.PRECIPITATION,
         "state_class": SensorStateClass.TOTAL,
         "unit": UnitOfLength.MILLIMETERS
     },
     "rrate": {
-        "device": "weather", "name": "Rainfall Rate",
+        "device": "weather",
+        "name": "Rainfall Rate",
         "device_class": SensorDeviceClass.PRECIPITATION_INTENSITY,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": UnitOfVolumetricFlux.MILLIMETERS_PER_HOUR
     },
     "wgust": {
-        "device": "weather", "name": "Wind Gust",
+        "device": "weather",
+        "name": "Wind Gust",
         "device_class": SensorDeviceClass.WIND_SPEED,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": UnitOfSpeed.KILOMETERS_PER_HOUR
     },
     "wlatest": {
-        "device": "weather", "name": "Wind Latest",
+        "device": "weather",
+        "name": "Wind Latest",
         "device_class": SensorDeviceClass.WIND_SPEED,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": UnitOfSpeed.KILOMETERS_PER_HOUR
     },
     "wspeed": {
-        "device": "weather", "name": "Wind Speed",
+        "device": "weather",
+        "name": "Wind Speed",
         "device_class": SensorDeviceClass.WIND_SPEED,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": UnitOfSpeed.KILOMETERS_PER_HOUR
     },
     "wdir": {
-        "device": "weather", "name": "Average Wind direction",
+        "device": "weather",
+        "name": "Average Wind direction",
         "device_class": None,
         "state_class": None,
         "unit": None,
         "icon": "mdi:compass-outline"
     },
     "currentwdir": {
-        "device": "weather", "name": "Wind Direction",
+        "device": "weather",
+        "name": "Wind Direction",
         "device_class": None,
         "state_class": None,
         "unit": None,
         "icon": "mdi:compass"
     },
     "intemp": {
-        "device": "weather", "name": "Indoor Temperature",
+        "device": "weather",
+        "name": "Indoor Temperature",
         "device_class": SensorDeviceClass.TEMPERATURE,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": UnitOfTemperature.CELSIUS,
     },
     "inhum": {
-        "device": "weather", "name": "Indoor Humidity",
+        "device": "weather",
+        "name": "Indoor Humidity",
         "device_class": SensorDeviceClass.HUMIDITY,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": PERCENTAGE,
     },
     "SolarRad": {
-        "device": "weather", "name": "Solar Radiation",
+        "device": "weather",
+        "name": "Solar Radiation",
         "device_class": SensorDeviceClass.IRRADIANCE,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": UnitOfIrradiance.WATTS_PER_SQUARE_METER,
     },
     "UV": {
-        "device": "weather", "name": "UV Index",
+        "device": "weather",
+        "name": "UV Index",
         "device_class": "",
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": None,
     },
 }
+
+for sensor_key, sensor_info in SENSOR_TYPES.items():
+    sensor_info.setdefault("translation_key", build_translation_key(sensor_key))
 
 # Complete list of known webtags for selector choices.
 ALL_WEBTAG_OPTIONS = []

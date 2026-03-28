@@ -1,0 +1,167 @@
+{
+  "entity": {
+    "sensor": {
+      "air_link_pm1_out": {
+        "name": "PM 1.0"
+      },
+      "air_link_pm2p5_out": {
+        "name": "PM 2.5"
+      },
+      "air_link_pm2p5_1hr_out": {
+        "name": "PM 2.5 1u"
+      },
+      "air_link_pm2p5_3hr_out": {
+        "name": "PM 2.5 3u"
+      },
+      "air_link_pm2p5_24hr_out": {
+        "name": "PM 2.5 24u"
+      },
+      "air_link_pm2p5_nowcast_out": {
+        "name": "PM 2.5 nowcast"
+      },
+      "air_link_pm10_out": {
+        "name": "PM 10"
+      },
+      "air_link_pm10_1hr_out": {
+        "name": "PM 10 1u"
+      },
+      "air_link_pm10_3hr_out": {
+        "name": "PM 10 3u"
+      },
+      "air_link_pm10_24hr_out": {
+        "name": "PM 10 24u"
+      },
+      "air_link_pm10_nowcast_out": {
+        "name": "PM 10 nowcast"
+      },
+      "air_link_aqi_pm2p5_out": {
+        "name": "PM 2.5 AQI"
+      },
+      "air_link_aqi_pm2p5_1hr_out": {
+        "name": "PM 2.5 AQI 1u"
+      },
+      "air_link_aqi_pm2p5_3hr_out": {
+        "name": "PM 2.5 AQI 3u"
+      },
+      "air_link_aqi_pm2p5_24hr_out": {
+        "name": "PM 2.5 AQI 24u"
+      },
+      "air_link_aqi_pm2p5_nowcast_out": {
+        "name": "PM 2.5 AQI nowcast"
+      },
+      "air_link_aqi_pm10_out": {
+        "name": "PM 10 AQI"
+      },
+      "air_link_aqi_pm10_1hr_out": {
+        "name": "PM 10 AQI 1u"
+      },
+      "air_link_aqi_pm10_3hr_out": {
+        "name": "PM 10 AQI 3u"
+      },
+      "air_link_aqi_pm10_24hr_out": {
+        "name": "PM 10 AQI 24u"
+      },
+      "air_link_aqi_pm10_nowcast_out": {
+        "name": "PM 10 AQI nowcast"
+      },
+      "air_link_hum_out": {
+        "name": "Luchtvochtigheid"
+      },
+      "air_link_temp_out": {
+        "name": "Temperatuur"
+      },
+      "build": {
+        "name": "Build"
+      },
+      "multicast_bad_cnt": {
+        "name": "Foute pakketten"
+      },
+      "multicast_good_cnt": {
+        "name": "Goede pakketten"
+      },
+      "multicast_good_pct": {
+        "name": "Percentage goede pakketten"
+      },
+      "program_up_time": {
+        "name": "Uptime"
+      },
+      "system_up_time": {
+        "name": "Systeem-uptime"
+      },
+      "timehhmmss": {
+        "name": "Tijd"
+      },
+      "txbattery_channel_1": {
+        "name": "Batterij ISS 1"
+      },
+      "txbattery_channel_2": {
+        "name": "Batterij ISS 2"
+      },
+      "version": {
+        "name": "Versie"
+      },
+      "avgbearing": {
+        "name": "Gemiddelde richting"
+      },
+      "bearing": {
+        "name": "Richting"
+      },
+      "dew": {
+        "name": "Dauwpunt"
+      },
+      "heatindex": {
+        "name": "Gevoelstemperatuur"
+      },
+      "hum": {
+        "name": "Luchtvochtigheid"
+      },
+      "last_rain_tip_iso": {
+        "name": "Laatste regentik"
+      },
+      "temp": {
+        "name": "Temperatuur"
+      },
+      "press": {
+        "name": "Luchtdruk"
+      },
+      "rfall": {
+        "name": "Neerslag"
+      },
+      "rrate": {
+        "name": "Neerslagintensiteit"
+      },
+      "wgust": {
+        "name": "Windstoot"
+      },
+      "wlatest": {
+        "name": "Laatste windmeting"
+      },
+      "wspeed": {
+        "name": "Windsnelheid"
+      },
+      "wdir": {
+        "name": "Gemiddelde windrichting"
+      },
+      "currentwdir": {
+        "name": "Windrichting"
+      },
+      "intemp": {
+        "name": "Binnentemperatuur"
+      },
+      "inhum": {
+        "name": "Binnenluchtvochtigheid"
+      },
+      "solar_rad": {
+        "name": "Zonnestraling"
+      },
+      "uv": {
+        "name": "UV-index"
+      }
+    },
+    "update": {
+      "hub_update": {
+        "name": "Update"
+      }
+    }
+  }
+}

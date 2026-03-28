@@ -14,6 +14,8 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
 class CumulusMXUpdateEntity(UpdateEntity):
     """CumulusMX Hub update entity."""
     _attr_has_entity_name = True
+    _attr_name = None
+    _attr_translation_key = "hub_update"
 
     def __init__(self, coordinator):
         self.coordinator = coordinator
@@ -57,11 +59,6 @@ class CumulusMXUpdateEntity(UpdateEntity):
     def unique_id(self):
         """Return a unique ID for the update entity."""
         return "cumulusmx_hub_update"
-
-    @property
-    def name(self):
-        """Return the name of the update entity."""
-        return "Update"
 
     @property
     def device_info(self) -> DeviceInfo:

@@ -1,0 +1,167 @@
+{
+  "entity": {
+    "sensor": {
+      "air_link_pm1_out": {
+        "name": "PM 1.0"
+      },
+      "air_link_pm2p5_out": {
+        "name": "PM 2.5"
+      },
+      "air_link_pm2p5_1hr_out": {
+        "name": "PM 2.5 1h"
+      },
+      "air_link_pm2p5_3hr_out": {
+        "name": "PM 2.5 3h"
+      },
+      "air_link_pm2p5_24hr_out": {
+        "name": "PM 2.5 24h"
+      },
+      "air_link_pm2p5_nowcast_out": {
+        "name": "PM 2.5 Nowcast"
+      },
+      "air_link_pm10_out": {
+        "name": "PM 10"
+      },
+      "air_link_pm10_1hr_out": {
+        "name": "PM 10 1h"
+      },
+      "air_link_pm10_3hr_out": {
+        "name": "PM 10 3h"
+      },
+      "air_link_pm10_24hr_out": {
+        "name": "PM 10 24h"
+      },
+      "air_link_pm10_nowcast_out": {
+        "name": "PM 10 Nowcast"
+      },
+      "air_link_aqi_pm2p5_out": {
+        "name": "PM 2.5 AQI"
+      },
+      "air_link_aqi_pm2p5_1hr_out": {
+        "name": "PM 2.5 AQI 1h"
+      },
+      "air_link_aqi_pm2p5_3hr_out": {
+        "name": "PM 2.5 AQI 3h"
+      },
+      "air_link_aqi_pm2p5_24hr_out": {
+        "name": "PM 2.5 AQI 24h"
+      },
+      "air_link_aqi_pm2p5_nowcast_out": {
+        "name": "PM 2.5 AQI Nowcast"
+      },
+      "air_link_aqi_pm10_out": {
+        "name": "PM 10 AQI"
+      },
+      "air_link_aqi_pm10_1hr_out": {
+        "name": "PM 10 AQI 1h"
+      },
+      "air_link_aqi_pm10_3hr_out": {
+        "name": "PM 10 AQI 3h"
+      },
+      "air_link_aqi_pm10_24hr_out": {
+        "name": "PM 10 AQI 24h"
+      },
+      "air_link_aqi_pm10_nowcast_out": {
+        "name": "PM 10 AQI Nowcast"
+      },
+      "air_link_hum_out": {
+        "name": "Humidity"
+      },
+      "air_link_temp_out": {
+        "name": "Temperature"
+      },
+      "build": {
+        "name": "Build"
+      },
+      "multicast_bad_cnt": {
+        "name": "Bad packets"
+      },
+      "multicast_good_cnt": {
+        "name": "Good packets"
+      },
+      "multicast_good_pct": {
+        "name": "Good packets percent"
+      },
+      "program_up_time": {
+        "name": "Uptime"
+      },
+      "system_up_time": {
+        "name": "System uptime"
+      },
+      "timehhmmss": {
+        "name": "Time"
+      },
+      "txbattery_channel_1": {
+        "name": "Battery ISS 1"
+      },
+      "txbattery_channel_2": {
+        "name": "Battery ISS 2"
+      },
+      "version": {
+        "name": "Version"
+      },
+      "avgbearing": {
+        "name": "Average bearing"
+      },
+      "bearing": {
+        "name": "Bearing"
+      },
+      "dew": {
+        "name": "Dew point"
+      },
+      "heatindex": {
+        "name": "Heat index"
+      },
+      "hum": {
+        "name": "Humidity"
+      },
+      "last_rain_tip_iso": {
+        "name": "Last rain tip"
+      },
+      "temp": {
+        "name": "Temperature"
+      },
+      "press": {
+        "name": "Pressure"
+      },
+      "rfall": {
+        "name": "Rainfall"
+      },
+      "rrate": {
+        "name": "Rainfall rate"
+      },
+      "wgust": {
+        "name": "Wind gust"
+      },
+      "wlatest": {
+        "name": "Wind latest"
+      },
+      "wspeed": {
+        "name": "Wind speed"
+      },
+      "wdir": {
+        "name": "Average wind direction"
+      },
+      "currentwdir": {
+        "name": "Wind direction"
+      },
+      "intemp": {
+        "name": "Indoor temperature"
+      },
+      "inhum": {
+        "name": "Indoor humidity"
+      },
+      "solar_rad": {
+        "name": "Solar radiation"
+      },
+      "uv": {
+        "name": "UV index"
+      }
+    },
+    "update": {
+      "hub_update": {
+        "name": "Update"
+      }
+    }
+  }
+}
