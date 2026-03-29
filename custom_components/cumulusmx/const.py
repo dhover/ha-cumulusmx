@@ -289,24 +289,6 @@ SENSOR_TYPES = {
         "entity_category": EntityCategory.DIAGNOSTIC,
         "icon": "mdi:clock-outline"
     },
-    "stationtype": {
-        "device": "system",
-        "name": "Station Type",
-        "device_class": None,
-        "state_class": None,
-        "unit": None,
-        "entity_category": EntityCategory.CONFIG,
-        "icon": "mdi:weather-partly-cloudy"
-    },
-    "tempunit": {
-        "device": "system",
-        "name": "Temperature Unit",
-        "device_class": None,
-        "state_class": None,
-        "unit": None,
-        "entity_category": EntityCategory.CONFIG,
-        "icon": "mdi:thermometer"
-    },
     "timehhmmss": {
         "device": "system",
         "name": "Time",
@@ -342,33 +324,6 @@ SENSOR_TYPES = {
         "unit": None,
         "entity_category": EntityCategory.DIAGNOSTIC,
         "icon": "mdi:information-outline"
-    },
-    "pressunit": {
-        "device": "system",
-        "name": "Pressure Unit",
-        "device_class": None,
-        "state_class": None,
-        "unit": None,
-        "entity_category": EntityCategory.CONFIG,
-        "icon": "mdi:gauge"
-    },
-    "rainunit": {
-        "device": "system",
-        "name": "Rain Unit",
-        "device_class": None,
-        "state_class": None,
-        "unit": None,
-        "entity_category": EntityCategory.CONFIG,
-        "icon": "mdi:water"
-    },
-    "windunit": {
-        "device": "system",
-        "name": "Wind Unit",
-        "device_class": None,
-        "state_class": None,
-        "unit": None,
-        "entity_category": EntityCategory.CONFIG,
-        "icon": "mdi:weather-windy"
     },
     # Sensors for Weather device (the rest)
     "avgbearing": {
