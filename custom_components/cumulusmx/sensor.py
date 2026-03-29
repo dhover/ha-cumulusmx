@@ -118,6 +118,7 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
             "device": None,
             "device_class": None,
             "state_class": None,
+            "entity_category": None,
             "unit": None,
             "icon": None
         }).copy()
@@ -235,6 +236,11 @@ class CumulusMXSensor(CoordinatorEntity, SensorEntity):
     def state_class(self):
         """Return the state class."""
         return self._sensor_info.get("state_class")
+
+    @property
+    def entity_category(self):
+        """Return the entity category."""
+        return self._sensor_info.get("entity_category")
 
     @property
     def device_info(self):
