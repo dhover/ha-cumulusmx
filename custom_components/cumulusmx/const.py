@@ -429,8 +429,8 @@ SENSOR_TYPES = {
         "state_class": None,
         "unit": None,
         "options": [
-            "N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE",
-            "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW",
+            "n", "nne", "ne", "ene", "e", "ese", "se", "sse",
+            "s", "ssw", "sw", "wsw", "w", "wnw", "nw", "nnw",
         ],
         "icon": "mdi:compass-outline"
     },
@@ -441,8 +441,8 @@ SENSOR_TYPES = {
         "state_class": None,
         "unit": None,
         "options": [
-            "N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE",
-            "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW",
+            "n", "nne", "ne", "ene", "e", "ese", "se", "sse",
+            "s", "ssw", "sw", "wsw", "w", "wnw", "nw", "nnw",
         ],
         "icon": "mdi:compass"
     },

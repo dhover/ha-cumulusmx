@@ -198,6 +198,8 @@ class CumulusMXSensor(CoordinatorEntity, SensorEntity):
         """Return the state of the sensor."""
         value = self.coordinator.data.get(
             self._key) if self.coordinator.data else None
+        if self.device_class == SensorDeviceClass.ENUM and isinstance(value, str):
+            return value.lower()
         # Replace comma by dot if value is numeric and contains a comma
         if isinstance(value, str) and "," in value:
             try:
