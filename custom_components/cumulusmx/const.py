@@ -470,17 +470,25 @@ SENSOR_TYPES = {
     "wdir": {
         "device": "weather",
         "name": "Average Wind direction",
-        "device_class": None,
+        "device_class": SensorDeviceClass.ENUM,
         "state_class": None,
         "unit": None,
+        "options": [
+            "N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE",
+            "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW",
+        ],
         "icon": "mdi:compass-outline"
     },
     "currentwdir": {
         "device": "weather",
         "name": "Wind Direction",
-        "device_class": None,
+        "device_class": SensorDeviceClass.ENUM,
         "state_class": None,
         "unit": None,
+        "options": [
+            "N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE",
+            "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW",
+        ],
         "icon": "mdi:compass"
     },
     "intemp": {

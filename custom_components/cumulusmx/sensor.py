@@ -119,6 +119,7 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
             "device_class": None,
             "state_class": None,
             "entity_category": None,
+            "options": None,
             "suggested_display_precision": None,
             "unit": None,
             "icon": None
@@ -242,6 +243,11 @@ class CumulusMXSensor(CoordinatorEntity, SensorEntity):
     def entity_category(self):
         """Return the entity category."""
         return self._sensor_info.get("entity_category")
+
+    @property
+    def options(self):
+        """Return the list of valid enum options."""
+        return self._sensor_info.get("options")
 
     @property
     def suggested_display_precision(self):
