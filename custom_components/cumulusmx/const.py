@@ -426,7 +426,8 @@ SENSOR_TYPES = {
         "name": "Pressure",
         "device_class": SensorDeviceClass.PRESSURE,
         "state_class": SensorStateClass.MEASUREMENT,
-        "unit": UnitOfPressure.HPA
+        "unit": UnitOfPressure.HPA,
+        "suggested_display_precision": 1,
     },
     "rfall": {
         "device": "weather",
@@ -447,21 +448,24 @@ SENSOR_TYPES = {
         "name": "Wind Gust",
         "device_class": SensorDeviceClass.WIND_SPEED,
         "state_class": SensorStateClass.MEASUREMENT,
-        "unit": UnitOfSpeed.KILOMETERS_PER_HOUR
+        "unit": UnitOfSpeed.KILOMETERS_PER_HOUR,
+        "suggested_display_precision": 1,
     },
     "wlatest": {
         "device": "weather",
         "name": "Wind Latest",
         "device_class": SensorDeviceClass.WIND_SPEED,
         "state_class": SensorStateClass.MEASUREMENT,
-        "unit": UnitOfSpeed.KILOMETERS_PER_HOUR
+        "unit": UnitOfSpeed.KILOMETERS_PER_HOUR,
+        "suggested_display_precision": 1,
     },
     "wspeed": {
         "device": "weather",
         "name": "Wind Speed",
         "device_class": SensorDeviceClass.WIND_SPEED,
         "state_class": SensorStateClass.MEASUREMENT,
-        "unit": UnitOfSpeed.KILOMETERS_PER_HOUR
+        "unit": UnitOfSpeed.KILOMETERS_PER_HOUR,
+        "suggested_display_precision": 1,
     },
     "wdir": {
         "device": "weather",

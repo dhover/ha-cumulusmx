@@ -119,6 +119,7 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
             "device_class": None,
             "state_class": None,
             "entity_category": None,
+            "suggested_display_precision": None,
             "unit": None,
             "icon": None
         }).copy()
@@ -241,6 +242,11 @@ class CumulusMXSensor(CoordinatorEntity, SensorEntity):
     def entity_category(self):
         """Return the entity category."""
         return self._sensor_info.get("entity_category")
+
+    @property
+    def suggested_display_precision(self):
+        """Return the suggested display precision."""
+        return self._sensor_info.get("suggested_display_precision")
 
     @property
     def device_info(self):
