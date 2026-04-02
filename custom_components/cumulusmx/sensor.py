@@ -199,7 +199,21 @@ class CumulusMXSensor(CoordinatorEntity, SensorEntity):
         value = self.coordinator.data.get(
             self._key) if self.coordinator.data else None
         if self.device_class == SensorDeviceClass.ENUM and isinstance(value, str):
-            return value.lower()
+            normalized_value = value.strip().lower()
+            if not normalized_value or normalized_value == "-":
+                return None
+
+            valid_options = self.options
+            if valid_options and normalized_value not in valid_options:
+                _LOGGER.debug(
+                    "Ignoring invalid enum value '%s' for %s; expected one of %s",
+                    value,
+                    self._key,
+                    valid_options,
+                )
+                return None
+
+            return normalized_value
         # Replace comma by dot if value is numeric and contains a comma
         if isinstance(value, str) and "," in value:
             try:
