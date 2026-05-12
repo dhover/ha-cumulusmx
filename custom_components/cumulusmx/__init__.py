@@ -14,16 +14,19 @@ PLATFORMS = [Platform.SENSOR, Platform.UPDATE]
 
 CONFIG_SCHEMA = cv.config_entry_only_config_schema("cumulusmx")
 
+type CumulusMXConfigEntry = ConfigEntry[CumulusMXCoordinator]
+
 
 async def async_setup(hass: HomeAssistant, config: dict):
     """Set up the CumulusMX integration from configuration.yaml (not used)."""
     return True
 
 
-async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
+async def async_setup_entry(hass: HomeAssistant, entry: CumulusMXConfigEntry):
     """Set up CumulusMX from a config entry."""
     coordinator = CumulusMXCoordinator(hass, entry)
     await coordinator.async_config_entry_first_refresh()
+    entry.runtime_data = coordinator
 
     device_registry = dr.async_get(hass)
     device_registry.async_get_or_create(
@@ -35,20 +38,16 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
         configuration_url=f"http://{coordinator.host}:{coordinator.port}",
     )
 
-    hass.data.setdefault(DOMAIN, {})
-    hass.data[DOMAIN][entry.entry_id] = coordinator
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
     entry.async_on_unload(entry.add_update_listener(async_update_options))
     return True
 
 
-async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
+async def async_unload_entry(hass: HomeAssistant, entry: CumulusMXConfigEntry):
     """Unload a config entry."""
-    await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
-    hass.data[DOMAIN].pop(entry.entry_id)
-    return True
+    return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
 
 
-async def async_update_options(hass: HomeAssistant, entry: ConfigEntry):
+async def async_update_options(hass: HomeAssistant, entry: CumulusMXConfigEntry):
     """Handle options update."""
     await hass.config_entries.async_reload(entry.entry_id)

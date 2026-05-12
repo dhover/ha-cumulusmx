@@ -1,11 +1,17 @@
 """Support for CumulusMX software update entity."""
 
+from __future__ import annotations
+
 import re
+from typing import TYPE_CHECKING
 
 from homeassistant.components.update import UpdateDeviceClass, UpdateEntity
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from .const import DOMAIN, GITHUB_API_URL
+
+if TYPE_CHECKING:
+    from . import CumulusMXConfigEntry
 
 SEMVER_PATTERN = re.compile(r"(\d+)\.(\d+)\.(\d+)")
 
@@ -32,9 +38,9 @@ def semver_to_tuple(version: str | None) -> tuple[int, int, int] | None:
     return int(major), int(minor), int(patch)
 
 
-async def async_setup_entry(hass, config_entry, async_add_entities):
+async def async_setup_entry(hass, config_entry: CumulusMXConfigEntry, async_add_entities):
     """Set up the update entity based on a config entry."""
-    coordinator = hass.data["cumulusmx"][config_entry.entry_id]
+    coordinator = config_entry.runtime_data
     async_add_entities([CumulusMXUpdateEntity(coordinator)], True)
 
 

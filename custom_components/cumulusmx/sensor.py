@@ -1,6 +1,9 @@
 """Platform for sensor integration."""
 
+from __future__ import annotations
+
 import logging
+from typing import TYPE_CHECKING
 
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
@@ -16,6 +19,9 @@ from homeassistant.const import (
 
 from .const import SENSOR_TYPES, DOMAIN
 from .coordinator import CumulusMXCoordinator
+
+if TYPE_CHECKING:
+    from . import CumulusMXConfigEntry
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -93,10 +99,10 @@ def get_device_type(key):
     return None
 
 
-async def async_setup_entry(hass, config_entry, async_add_entities):
+async def async_setup_entry(hass, config_entry: CumulusMXConfigEntry, async_add_entities):
     """Set up sensors based on a config entry."""
 
-    coordinator = hass.data["cumulusmx"][config_entry.entry_id]
+    coordinator = config_entry.runtime_data
     sensors = []
     # Wait for the first data refresh to get all keys
     await coordinator.async_refresh()
