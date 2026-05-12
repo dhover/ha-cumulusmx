@@ -5,8 +5,8 @@ from homeassistant import config_entries
 from homeassistant.helpers import selector
 from homeassistant.core import callback
 from .const import (
-    DOMAIN, CONF_HOST, CONF_PORT, CONF_WEBTAGS, CONF_UPDATE_INTERVAL,
-    DEFAULT_HOST, DEFAULT_PORT, DEFAULT_WEBTAGS, DEFAULT_UPDATE_INTERVAL, ALL_WEBTAG_OPTIONS,
+    DOMAIN, CONF_HOST, CONF_PORT, CONF_WEBTAGS,
+    DEFAULT_HOST, DEFAULT_PORT, DEFAULT_WEBTAGS, ALL_WEBTAG_OPTIONS,
     normalize_configurable_webtags,
 )
 
@@ -22,7 +22,6 @@ def _build_options_schema() -> vol.Schema:
                 mode=selector.SelectSelectorMode.LIST,
             )
         ),
-        vol.Optional(CONF_UPDATE_INTERVAL, default=DEFAULT_UPDATE_INTERVAL): int,
     })
 
 

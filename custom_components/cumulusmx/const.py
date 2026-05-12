@@ -20,7 +20,6 @@ from homeassistant.helpers.entity import EntityCategory
 
 DOMAIN = "cumulusmx"
 
-CONF_UPDATE_INTERVAL = "update_interval"
 CONF_HOST = "host"
 CONF_PORT = "port"
 CONF_WEBTAGS = "webtags"
@@ -58,7 +57,7 @@ EXTRA_WEBTAGS = [
 ]
 NON_SELECTABLE_WEBTAGS = set(EXTRA_WEBTAGS)
 
-DEFAULT_UPDATE_INTERVAL = 60
+DEFAULT_UPDATE_INTERVAL = 30
 
 # Endpoint for reading sensors
 SENSOR_API_URL = "http://{host}:{port}/api/tags/process.txt"
