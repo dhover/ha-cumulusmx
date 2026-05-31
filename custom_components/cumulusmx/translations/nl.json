@@ -18,7 +18,7 @@
             }
         },
         "error": {
-            "cannot_connect": "Kan geen verbinding maken met CumulusMX. Controleer de host en poort."
+            "cumulusmx_connection_failed": "Kan geen verbinding maken met CumulusMX. Controleer de host en poort."
         },
         "abort": {
             "reconfigure_successful": "CumulusMX is opnieuw geconfigureerd."

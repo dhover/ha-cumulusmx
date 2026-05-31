@@ -72,7 +72,7 @@ class CumulusMXConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         errors = {}
         if user_input is not None:
             if not await _async_validate_connection(self.hass, user_input):
-                errors["base"] = "cannot_connect"
+                errors["base"] = "cumulusmx_connection_failed"
                 return self.async_show_form(
                     step_id="user",
                     data_schema=self.add_suggested_values_to_schema(
@@ -104,7 +104,7 @@ class CumulusMXConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         if user_input is not None:
             if not await _async_validate_connection(self.hass, user_input):
-                errors["base"] = "cannot_connect"
+                errors["base"] = "cumulusmx_connection_failed"
                 return self.async_show_form(
                     step_id="reconfigure",
                     data_schema=self.add_suggested_values_to_schema(
@@ -123,13 +123,14 @@ class CumulusMXConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             options.pop(CONF_HOST, None)
             options.pop(CONF_PORT, None)
 
-            return self.async_update_reload_and_abort(
+            self.hass.config_entries.async_update_entry(
                 entry,
+                title=_build_entry_title(data),
                 data=data,
                 options=options,
-                title=_build_entry_title(data),
-                reason="reconfigure_successful",
             )
+            await self.hass.config_entries.async_reload(entry.entry_id)
+            return self.async_abort(reason="reconfigure_successful")
 
         suggested_values = {
             CONF_HOST: entry.data.get(
