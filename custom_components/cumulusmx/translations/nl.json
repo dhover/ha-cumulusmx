@@ -5,28 +5,28 @@
                 "title": "CumulusMX",
                 "data": {
                     "host": "Host",
-                    "port": "Port"
+                    "port": "Poort"
                 }
             },
             "reconfigure": {
-                "title": "Reconfigure CumulusMX",
+                "title": "CumulusMX opnieuw configureren",
                 "data": {
                     "host": "Host",
-                    "port": "Port"
+                    "port": "Poort"
                 }
             }
         },
         "error": {
-            "cannot_connect": "Failed to connect to CumulusMX. Check the host and port."
+            "cannot_connect": "Kan geen verbinding maken met CumulusMX. Controleer de host en poort."
         },
         "abort": {
-            "reconfigure_successful": "CumulusMX has been reconfigured."
+            "reconfigure_successful": "CumulusMX is opnieuw geconfigureerd."
         }
     },
     "options": {
         "step": {
             "init": {
-                "title": "CumulusMX options",
+                "title": "CumulusMX-opties",
                 "data": {
                     "webtags": "Webtags"
                 }
