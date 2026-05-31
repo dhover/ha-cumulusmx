@@ -40,20 +40,6 @@ def _build_entry_title(user_input: dict) -> str:
     return f"{user_input[CONF_HOST]}:{user_input[CONF_PORT]}"
 
 
-def _connection_error_message(hass) -> str:
-    """Return a user-facing connection error message."""
-    if hass.config.language and hass.config.language.lower().startswith("nl"):
-        return "Kan geen verbinding maken met CumulusMX. Controleer de host en poort."
-    return "Failed to connect to CumulusMX. Check the host and port."
-
-
-def _reconfigure_success_message(hass) -> str:
-    """Return a user-facing reconfigure success message."""
-    if hass.config.language and hass.config.language.lower().startswith("nl"):
-        return "CumulusMX is opnieuw geconfigureerd."
-    return "CumulusMX has been reconfigured."
-
-
 async def _async_validate_connection(hass, user_input: dict) -> bool:
     """Validate that CumulusMX can be reached."""
     webtags = [*DEFAULT_WEBTAGS, *EXTRA_WEBTAGS]
@@ -86,7 +72,7 @@ class CumulusMXConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         errors = {}
         if user_input is not None:
             if not await _async_validate_connection(self.hass, user_input):
-                errors["base"] = _connection_error_message(self.hass)
+                errors["base"] = "cannot_connect"
                 return self.async_show_form(
                     step_id="user",
                     data_schema=self.add_suggested_values_to_schema(
@@ -118,7 +104,7 @@ class CumulusMXConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         if user_input is not None:
             if not await _async_validate_connection(self.hass, user_input):
-                errors["base"] = _connection_error_message(self.hass)
+                errors["base"] = "cannot_connect"
                 return self.async_show_form(
                     step_id="reconfigure",
                     data_schema=self.add_suggested_values_to_schema(
@@ -144,7 +130,7 @@ class CumulusMXConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 options=options,
             )
             await self.hass.config_entries.async_reload(entry.entry_id)
-            return self.async_abort(reason=_reconfigure_success_message(self.hass))
+            return self.async_abort(reason="reconfigure_successful")
 
         suggested_values = {
             CONF_HOST: entry.data.get(
