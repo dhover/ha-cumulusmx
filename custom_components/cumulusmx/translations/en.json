@@ -1,4 +1,35 @@
 {
+  "config": {
+    "step": {
+      "user": {
+        "title": "CumulusMX",
+        "data": {
+          "host": "Host",
+          "port": "Port"
+        }
+      },
+      "reconfigure": {
+        "title": "Reconfigure CumulusMX",
+        "data": {
+          "host": "Host",
+          "port": "Port"
+        }
+      }
+    },
+    "abort": {
+      "reconfigure_successful": "CumulusMX has been reconfigured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "CumulusMX options",
+        "data": {
+          "webtags": "Webtags"
+        }
+      }
+    }
+  },
   "device": {
     "hub": {
       "name": "CumulusMX Hub"

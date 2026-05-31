@@ -12,8 +12,6 @@ from .const import (
 
 def _build_options_schema() -> vol.Schema:
     return vol.Schema({
-        vol.Required(CONF_HOST, default=DEFAULT_HOST): str,
-        vol.Required(CONF_PORT, default=DEFAULT_PORT): int,
         vol.Required(CONF_WEBTAGS, default=DEFAULT_WEBTAGS): selector.SelectSelector(
             selector.SelectSelectorConfig(
                 options=ALL_WEBTAG_OPTIONS,
@@ -22,6 +20,13 @@ def _build_options_schema() -> vol.Schema:
                 mode=selector.SelectSelectorMode.LIST,
             )
         ),
+    })
+
+
+def _build_connection_schema() -> vol.Schema:
+    return vol.Schema({
+        vol.Required(CONF_HOST, default=DEFAULT_HOST): str,
+        vol.Required(CONF_PORT, default=DEFAULT_PORT): int,
     })
 
 
@@ -40,11 +45,10 @@ class CumulusMXConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         errors = {}
         if user_input is not None:
-            user_input[CONF_WEBTAGS] = normalize_configurable_webtags(
-                user_input.get(CONF_WEBTAGS, DEFAULT_WEBTAGS)
-            )
-            if not user_input[CONF_WEBTAGS]:
-                user_input[CONF_WEBTAGS] = DEFAULT_WEBTAGS
+            user_input = {
+                **user_input,
+                CONF_WEBTAGS: DEFAULT_WEBTAGS,
+            }
             return self.async_create_entry(
                 title=_build_entry_title(user_input),
                 data=user_input,
@@ -52,8 +56,47 @@ class CumulusMXConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         return self.async_show_form(
             step_id="user",
-            data_schema=_build_options_schema(),
+            data_schema=_build_connection_schema(),
             errors=errors,
+        )
+
+    async def async_step_reconfigure(self, user_input=None):
+        """Handle reconfiguration of connection settings."""
+        entry = self._get_reconfigure_entry()
+
+        if user_input is not None:
+            data = {
+                **entry.data,
+                CONF_HOST: user_input[CONF_HOST],
+                CONF_PORT: user_input[CONF_PORT],
+            }
+            options = dict(entry.options)
+            options.pop(CONF_HOST, None)
+            options.pop(CONF_PORT, None)
+
+            self.hass.config_entries.async_update_entry(
+                entry,
+                title=_build_entry_title(data),
+                data=data,
+                options=options,
+            )
+            await self.hass.config_entries.async_reload(entry.entry_id)
+            return self.async_abort(reason="reconfigure_successful")
+
+        suggested_values = {
+            CONF_HOST: entry.data.get(
+                CONF_HOST, entry.options.get(CONF_HOST, DEFAULT_HOST)
+            ),
+            CONF_PORT: entry.data.get(
+                CONF_PORT, entry.options.get(CONF_PORT, DEFAULT_PORT)
+            ),
+        }
+        return self.async_show_form(
+            step_id="reconfigure",
+            data_schema=self.add_suggested_values_to_schema(
+                _build_connection_schema(),
+                suggested_values,
+            ),
         )
 
     @staticmethod
