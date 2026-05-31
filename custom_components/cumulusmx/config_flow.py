@@ -72,7 +72,7 @@ class CumulusMXConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         errors = {}
         if user_input is not None:
             if not await _async_validate_connection(self.hass, user_input):
-                errors["base"] = "cumulusmx_connection_failed"
+                errors["base"] = "cannot_connect"
                 return self.async_show_form(
                     step_id="user",
                     data_schema=self.add_suggested_values_to_schema(
@@ -104,7 +104,7 @@ class CumulusMXConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         if user_input is not None:
             if not await _async_validate_connection(self.hass, user_input):
-                errors["base"] = "cumulusmx_connection_failed"
+                errors["base"] = "cannot_connect"
                 return self.async_show_form(
                     step_id="reconfigure",
                     data_schema=self.add_suggested_values_to_schema(
