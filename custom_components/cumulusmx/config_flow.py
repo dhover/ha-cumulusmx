@@ -1,12 +1,17 @@
 """Config flow for CumulusMX integration."""
 
+import asyncio
+
+from aiohttp import ClientError
 import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.helpers import selector
 from homeassistant.core import callback
+from .cumulusmx import CumulusMXApi
 from .const import (
     DOMAIN, CONF_HOST, CONF_PORT, CONF_WEBTAGS,
     DEFAULT_HOST, DEFAULT_PORT, DEFAULT_WEBTAGS, ALL_WEBTAG_OPTIONS,
+    EXTRA_WEBTAGS, SENSOR_API_URL, create_sensor_post_body,
     normalize_configurable_webtags,
 )
 
@@ -35,6 +40,27 @@ def _build_entry_title(user_input: dict) -> str:
     return f"{user_input[CONF_HOST]}:{user_input[CONF_PORT]}"
 
 
+async def _async_validate_connection(hass, user_input: dict) -> bool:
+    """Validate that CumulusMX can be reached."""
+    webtags = [*DEFAULT_WEBTAGS, *EXTRA_WEBTAGS]
+    api = CumulusMXApi(
+        hass,
+        SENSOR_API_URL.format(
+            host=user_input[CONF_HOST],
+            port=user_input[CONF_PORT],
+        ),
+        create_sensor_post_body(webtags),
+    )
+
+    try:
+        async with asyncio.timeout(10):
+            await api.async_get_data()
+    except (TimeoutError, ClientError, OSError, Exception):
+        return False
+
+    return True
+
+
 class CumulusMXConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a CumulusMX config flow."""
 
@@ -45,6 +71,17 @@ class CumulusMXConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         errors = {}
         if user_input is not None:
+            if not await _async_validate_connection(self.hass, user_input):
+                errors["base"] = "cannot_connect"
+                return self.async_show_form(
+                    step_id="user",
+                    data_schema=self.add_suggested_values_to_schema(
+                        _build_connection_schema(),
+                        user_input,
+                    ),
+                    errors=errors,
+                )
+
             user_input = {
                 **user_input,
                 CONF_WEBTAGS: DEFAULT_WEBTAGS,
@@ -63,8 +100,20 @@ class CumulusMXConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     async def async_step_reconfigure(self, user_input=None):
         """Handle reconfiguration of connection settings."""
         entry = self._get_reconfigure_entry()
+        errors = {}
 
         if user_input is not None:
+            if not await _async_validate_connection(self.hass, user_input):
+                errors["base"] = "cannot_connect"
+                return self.async_show_form(
+                    step_id="reconfigure",
+                    data_schema=self.add_suggested_values_to_schema(
+                        _build_connection_schema(),
+                        user_input,
+                    ),
+                    errors=errors,
+                )
+
             data = {
                 **entry.data,
                 CONF_HOST: user_input[CONF_HOST],
@@ -97,6 +146,7 @@ class CumulusMXConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 _build_connection_schema(),
                 suggested_values,
             ),
+            errors=errors,
         )
 
     @staticmethod

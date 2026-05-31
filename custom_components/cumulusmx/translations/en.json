@@ -16,6 +16,9 @@
         }
       }
     },
+    "error": {
+      "cannot_connect": "Failed to connect to CumulusMX. Check the host and port."
+    },
     "abort": {
       "reconfigure_successful": "CumulusMX has been reconfigured."
     }
