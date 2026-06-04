@@ -1,8 +1,18 @@
 """CumulusMX API client."""
 
+import asyncio
 import logging
 from aiohttp import ClientError
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
+
+from .const import (
+    CONF_HOST,
+    CONF_PORT,
+    DEFAULT_WEBTAGS,
+    EXTRA_WEBTAGS,
+    SENSOR_API_URL,
+    create_sensor_post_body,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -26,3 +36,24 @@ class CumulusMXApi:
         except (ClientError, Exception) as err:
             _LOGGER.error("Error communicating with CumulusMX API: %s", err)
             raise
+
+
+async def _async_validate_connection(hass, user_input: dict) -> bool:
+    """Validate that CumulusMX can be reached."""
+    webtags = [*DEFAULT_WEBTAGS, *EXTRA_WEBTAGS]
+    api = CumulusMXApi(
+        hass,
+        SENSOR_API_URL.format(
+            host=user_input[CONF_HOST],
+            port=user_input[CONF_PORT],
+        ),
+        create_sensor_post_body(webtags),
+    )
+
+    try:
+        async with asyncio.timeout(10):
+            await api.async_get_data()
+    except (TimeoutError, ClientError, OSError, Exception):
+        return False
+
+    return True

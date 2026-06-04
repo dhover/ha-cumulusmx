@@ -1,17 +1,13 @@
 """Config flow for CumulusMX integration."""
 
-import asyncio
-
-from aiohttp import ClientError
 import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.helpers import selector
 from homeassistant.core import callback
-from .cumulusmx import CumulusMXApi
+from .cumulusmx import _async_validate_connection
 from .const import (
     DOMAIN, CONF_HOST, CONF_PORT, CONF_WEBTAGS,
     DEFAULT_HOST, DEFAULT_PORT, DEFAULT_WEBTAGS, ALL_WEBTAG_OPTIONS,
-    EXTRA_WEBTAGS, SENSOR_API_URL, create_sensor_post_body,
     normalize_configurable_webtags,
 )
 
@@ -38,27 +34,6 @@ def _build_connection_schema() -> vol.Schema:
 def _build_entry_title(user_input: dict) -> str:
     """Build the config entry title."""
     return f"{user_input[CONF_HOST]}:{user_input[CONF_PORT]}"
-
-
-async def _async_validate_connection(hass, user_input: dict) -> bool:
-    """Validate that CumulusMX can be reached."""
-    webtags = [*DEFAULT_WEBTAGS, *EXTRA_WEBTAGS]
-    api = CumulusMXApi(
-        hass,
-        SENSOR_API_URL.format(
-            host=user_input[CONF_HOST],
-            port=user_input[CONF_PORT],
-        ),
-        create_sensor_post_body(webtags),
-    )
-
-    try:
-        async with asyncio.timeout(10):
-            await api.async_get_data()
-    except (TimeoutError, ClientError, OSError, Exception):
-        return False
-
-    return True
 
 
 class CumulusMXConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
