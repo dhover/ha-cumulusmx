@@ -36,6 +36,24 @@ def _build_entry_title(user_input: dict) -> str:
     return f"{user_input[CONF_HOST]}:{user_input[CONF_PORT]}"
 
 
+def _build_unique_id(user_input: dict) -> str:
+    """Build a unique ID for the configured CumulusMX instance."""
+    return f"{user_input[CONF_HOST].strip().lower()}:{user_input[CONF_PORT]}"
+
+
+def _entry_has_unique_id(entry: config_entries.ConfigEntry, unique_id: str) -> bool:
+    """Return whether an existing entry matches a unique ID."""
+    if entry.unique_id == unique_id:
+        return True
+
+    host = entry.data.get(CONF_HOST, entry.options.get(CONF_HOST))
+    port = entry.data.get(CONF_PORT, entry.options.get(CONF_PORT))
+    if host is None or port is None:
+        return False
+
+    return _build_unique_id({CONF_HOST: host, CONF_PORT: port}) == unique_id
+
+
 class CumulusMXConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a CumulusMX config flow."""
 
@@ -46,6 +64,14 @@ class CumulusMXConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         errors = {}
         if user_input is not None:
+            unique_id = _build_unique_id(user_input)
+            await self.async_set_unique_id(unique_id)
+            if any(
+                _entry_has_unique_id(entry, unique_id)
+                for entry in self.hass.config_entries.async_entries(DOMAIN)
+            ):
+                return self.async_abort(reason="already_configured")
+
             if not await _async_validate_connection(self.hass, user_input):
                 errors["base"] = "cannot_connect"
                 return self.async_show_form(
@@ -78,6 +104,15 @@ class CumulusMXConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         errors = {}
 
         if user_input is not None:
+            unique_id = _build_unique_id(user_input)
+            await self.async_set_unique_id(unique_id)
+            if any(
+                existing_entry.entry_id != entry.entry_id
+                and _entry_has_unique_id(existing_entry, unique_id)
+                for existing_entry in self.hass.config_entries.async_entries(DOMAIN)
+            ):
+                return self.async_abort(reason="already_configured")
+
             if not await _async_validate_connection(self.hass, user_input):
                 errors["base"] = "cannot_connect"
                 return self.async_show_form(
@@ -103,6 +138,7 @@ class CumulusMXConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 title=_build_entry_title(data),
                 data=data,
                 options=options,
+                unique_id=unique_id,
             )
             await self.hass.config_entries.async_reload(entry.entry_id)
             return self.async_abort(reason="reconfigure_successful")

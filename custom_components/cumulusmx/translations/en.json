@@ -21,6 +21,7 @@
       "cannot_connect": "Failed to connect to CumulusMX. Check the host and port."
     },
     "abort": {
+      "already_configured": "This CumulusMX instance is already configured.",
       "reconfigure_successful": "CumulusMX has been reconfigured."
     }
   },

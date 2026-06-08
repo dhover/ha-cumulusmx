@@ -21,6 +21,7 @@
             "cannot_connect": "Kan geen verbinding maken met CumulusMX. Controleer de host en poort."
         },
         "abort": {
+            "already_configured": "Deze CumulusMX-instantie is al geconfigureerd.",
             "reconfigure_successful": "CumulusMX is opnieuw geconfigureerd."
         }
     },
