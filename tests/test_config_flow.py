@@ -114,6 +114,32 @@ def _load_config_flow_module():
         def add_suggested_values_to_schema(self, data_schema, suggested_values):
             return (data_schema, suggested_values)
 
+        def async_update_entry(self, entry, **kwargs):
+            self.updated_entry = (entry, kwargs)
+            entry.data = kwargs.get("data", entry.data)
+            entry.options = kwargs.get("options", entry.options)
+            entry.unique_id = kwargs.get("unique_id", entry.unique_id)
+            entry.title = kwargs.get("title", entry.title)
+
+        async def async_reload(self, entry_id):
+            await self.hass.config_entries.async_reload(entry_id)
+
+        async def async_update_reload_and_abort(
+            self,
+            entry,
+            data_updates=None,
+            options_updates=None,
+            unique_id=None,
+        ):
+            self.async_update_entry(
+                entry,
+                data=data_updates or entry.data,
+                options=options_updates or entry.options,
+                unique_id=unique_id or entry.unique_id,
+            )
+            await self.async_reload(entry.entry_id)
+            return self.async_abort(reason="reconfigure_successful")
+
         def _get_reconfigure_entry(self):
             return self._reconfigure_entry
 
