@@ -7,6 +7,10 @@
         "data": {
           "host": "Host",
           "port": "Port"
+        },
+        "data_description": {
+          "host": "The hostname or IP address of the CumulusMX server.",
+          "port": "The port used by the CumulusMX API."
         }
       },
       "reconfigure": {
@@ -14,6 +18,10 @@
         "data": {
           "host": "Host",
           "port": "Port"
+        },
+        "data_description": {
+          "host": "The hostname or IP address of the CumulusMX server.",
+          "port": "The port used by the CumulusMX API."
         }
       }
     },
@@ -31,6 +39,9 @@
         "title": "CumulusMX options",
         "data": {
           "webtags": "Webtags"
+        },
+        "data_description": {
+          "webtags": "Select the CumulusMX webtags to create sensor entities for."
         }
       }
     }

@@ -7,6 +7,10 @@
                 "data": {
                     "host": "Host",
                     "port": "Poort"
+                },
+                "data_description": {
+                    "host": "De hostnaam of het IP-adres van de CumulusMX-server.",
+                    "port": "De poort die de CumulusMX-API gebruikt."
                 }
             },
             "reconfigure": {
@@ -14,6 +18,10 @@
                 "data": {
                     "host": "Host",
                     "port": "Poort"
+                },
+                "data_description": {
+                    "host": "De hostnaam of het IP-adres van de CumulusMX-server.",
+                    "port": "De poort die de CumulusMX-API gebruikt."
                 }
             }
         },
@@ -31,6 +39,9 @@
                 "title": "CumulusMX-opties",
                 "data": {
                     "webtags": "Webtags"
+                },
+                "data_description": {
+                    "webtags": "Selecteer de CumulusMX-webtags waarvoor sensorentiteiten worden aangemaakt."
                 }
             }
         }
