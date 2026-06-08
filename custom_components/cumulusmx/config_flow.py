@@ -133,12 +133,15 @@ class CumulusMXConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             options.pop(CONF_HOST, None)
             options.pop(CONF_PORT, None)
 
-            return await self.async_update_reload_and_abort(
+            self.hass.config_entries.async_update_entry(
                 entry,
-                data_updates=data,
-                options_updates=options,
+                title=_build_entry_title(data),
+                data=data,
+                options=options,
                 unique_id=unique_id,
             )
+            await self.hass.config_entries.async_reload(entry.entry_id)
+            return self.async_abort(reason="reconfigure_successful")
 
         suggested_values = {
             CONF_HOST: entry.data.get(
