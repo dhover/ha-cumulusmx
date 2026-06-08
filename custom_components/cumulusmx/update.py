@@ -11,6 +11,7 @@ from aiohttp import ClientError
 from homeassistant.components.update import UpdateDeviceClass, UpdateEntity
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
+from homeassistant.helpers.event import async_track_time_interval
 from .const import DOMAIN, GITHUB_API_URL
 
 if TYPE_CHECKING:
@@ -60,10 +61,32 @@ class CumulusMXUpdateEntity(UpdateEntity):
 
     def __init__(self, coordinator):
         self.coordinator = coordinator
+        self._attr_should_poll = False
         self._attr_latest_version = None
         self._attr_installed_version = None
         self._attr_release_url = None
         self._attr_title = "CumulusMX Hub"
+        self._update_interval_unsub = None
+
+    async def async_added_to_hass(self) -> None:
+        """Register periodic update checks."""
+        await self.async_update()
+        self._update_interval_unsub = async_track_time_interval(
+            self.hass,
+            self._async_interval_update,
+            SCAN_INTERVAL,
+        )
+
+    async def async_will_remove_from_hass(self) -> None:
+        """Cleanup update interval listener."""
+        if self._update_interval_unsub:
+            self._update_interval_unsub()
+            self._update_interval_unsub = None
+
+    async def _async_interval_update(self, now) -> None:
+        """Fetch update information on a schedule."""
+        await self.async_update()
+        self.async_write_ha_state()
 
     async def async_update(self):
         """Fetch the latest version information from GitHub."""
@@ -71,6 +94,8 @@ class CumulusMXUpdateEntity(UpdateEntity):
         self._attr_installed_version = extract_semver(
             self.coordinator.data.get("version")
         )
+        self._attr_latest_version = None
+        self._attr_release_url = None
 
         await self._async_update_latest_release()
 

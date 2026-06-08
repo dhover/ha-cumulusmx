@@ -63,6 +63,16 @@ def _load_update_module():
     ha_helpers = types.ModuleType("homeassistant.helpers")
     sys.modules["homeassistant.helpers"] = ha_helpers
 
+    aiohttp_mod = types.ModuleType("aiohttp")
+    class ClientError(Exception):
+        pass
+    aiohttp_mod.ClientError = ClientError
+    sys.modules["aiohttp"] = aiohttp_mod
+
+    ha_helpers_event = types.ModuleType("homeassistant.helpers.event")
+    ha_helpers_event.async_track_time_interval = lambda hass, action, interval: lambda: None
+    sys.modules["homeassistant.helpers.event"] = ha_helpers_event
+
     ha_aiohttp = types.ModuleType("homeassistant.helpers.aiohttp_client")
     ha_aiohttp.async_get_clientsession = lambda hass: hass.session
     sys.modules["homeassistant.helpers.aiohttp_client"] = ha_aiohttp
