@@ -2,9 +2,12 @@
 
 from __future__ import annotations
 
+from datetime import timedelta
+import logging
 import re
 from typing import TYPE_CHECKING
 
+from aiohttp import ClientError
 from homeassistant.components.update import UpdateDeviceClass, UpdateEntity
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
@@ -13,7 +16,11 @@ from .const import DOMAIN, GITHUB_API_URL
 if TYPE_CHECKING:
     from . import CumulusMXConfigEntry
 
+_LOGGER = logging.getLogger(__name__)
+
 SEMVER_PATTERN = re.compile(r"(\d+)\.(\d+)\.(\d+)")
+SCAN_INTERVAL = timedelta(hours=12)
+UPDATE_CHECK_TIMEOUT = 10
 
 
 def extract_semver(value: str | None) -> str | None:
@@ -65,19 +72,33 @@ class CumulusMXUpdateEntity(UpdateEntity):
             self.coordinator.data.get("version")
         )
 
-        # Fetch latest version from GitHub
+        await self._async_update_latest_release()
+
+    async def _async_update_latest_release(self) -> None:
+        """Fetch the latest CumulusMX release information from GitHub."""
         session = async_get_clientsession(self.hass)
-        async with session.get(GITHUB_API_URL) as resp:
-            if resp.status == 200:
+
+        try:
+            async with session.get(GITHUB_API_URL, timeout=UPDATE_CHECK_TIMEOUT) as resp:
+                if resp.status != 200:
+                    _LOGGER.debug(
+                        "GitHub release check failed with HTTP status %s",
+                        resp.status,
+                    )
+                    self._attr_latest_version = None
+                    self._attr_release_url = None
+                    return
+
                 data = await resp.json()
                 self._attr_latest_version = (
                     extract_semver(data.get("name"))
                     or extract_semver(data.get("tag_name"))
                 )
                 self._attr_release_url = data.get("html_url")
-            else:
-                self._attr_latest_version = None
-                self._attr_release_url = None
+        except (ClientError, TimeoutError, OSError, ValueError) as err:
+            _LOGGER.debug("GitHub release check failed: %s", err)
+            self._attr_latest_version = None
+            self._attr_release_url = None
 
     @property
     def installed_version(self):
