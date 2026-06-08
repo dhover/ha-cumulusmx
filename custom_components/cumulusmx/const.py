@@ -469,7 +469,7 @@ SENSOR_TYPES = {
     "UV": {
         "device": "weather",
         "name": "UV Index",
-        "device_class": "",
+        "device_class": None,
         "state_class": SensorStateClass.MEASUREMENT,
         "unit": None,
     },

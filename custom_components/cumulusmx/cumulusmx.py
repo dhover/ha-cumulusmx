@@ -33,7 +33,7 @@ class CumulusMXApi:
                 data = await response.json(content_type=None)
                 _LOGGER.debug("Received data from CumulusMX: %s", data)
                 return data
-        except (ClientError, Exception) as err:
+        except (ClientError, TimeoutError, OSError, ValueError) as err:
             _LOGGER.error("Error communicating with CumulusMX API: %s", err)
             raise
 
@@ -53,7 +53,7 @@ async def _async_validate_connection(hass, user_input: dict) -> bool:
     try:
         async with asyncio.timeout(10):
             await api.async_get_data()
-    except (TimeoutError, ClientError, OSError, Exception):
+    except (TimeoutError, ClientError, OSError, ValueError):
         return False
 
     return True

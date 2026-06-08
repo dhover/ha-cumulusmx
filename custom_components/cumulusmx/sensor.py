@@ -109,10 +109,10 @@ async def async_setup_entry(hass, config_entry: CumulusMXConfigEntry, async_add_
     if not coordinator.data:
         return
 
-    temp_unit = coordinator.data["tempunit"]
-    press_unit = coordinator.data["pressunit"]
-    rain_unit = coordinator.data["rainunit"]
-    wind_unit = coordinator.data["windunit"]
+    temp_unit = coordinator.data.get("tempunit")
+    press_unit = coordinator.data.get("pressunit")
+    rain_unit = coordinator.data.get("rainunit")
+    wind_unit = coordinator.data.get("windunit")
     _LOGGER.debug("temp_unit: %s", temp_unit)
     _LOGGER.debug("press_unit: %s", press_unit)
     _LOGGER.debug("rain_unit: %s", rain_unit)

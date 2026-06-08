@@ -72,6 +72,6 @@ class CumulusMXCoordinator(DataUpdateCoordinator):
         try:
             data = await self.api.async_get_data()  # <-- Use the API method
             return data
-        except (ClientError, Exception) as err:
+        except (ClientError, TimeoutError, OSError, ValueError) as err:
             raise UpdateFailed(
                 f"Error communicating with CumulusMX API: {err}") from err

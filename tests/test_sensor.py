@@ -409,6 +409,41 @@ class AsyncSetupEntryTestCase(unittest.IsolatedAsyncioTestCase):
             SENSOR_MODULE.UnitOfSpeed.MILES_PER_HOUR,
         )
 
+    async def test_async_setup_entry_uses_static_units_when_unit_tags_are_missing(self):
+        coordinator = SimpleNamespace(
+            data={
+                "temp": "20.0",
+                "press": "1013.2",
+            },
+            host="weather.local",
+            port=8998,
+            config_entry=SimpleNamespace(entry_id="entry-1"),
+        )
+
+        async def async_refresh():
+            return None
+
+        coordinator.async_refresh = async_refresh
+
+        hass = SimpleNamespace()
+        config_entry = SimpleNamespace(entry_id="entry-1", runtime_data=coordinator)
+        added_entities = []
+
+        def async_add_entities(entities):
+            added_entities.extend(entities)
+
+        await SENSOR_MODULE.async_setup_entry(hass, config_entry, async_add_entities)
+
+        entities_by_key = {entity._key: entity for entity in added_entities}
+        self.assertEqual(
+            entities_by_key["temp"]._sensor_info["unit"],
+            SENSOR_MODULE.UnitOfTemperature.CELSIUS,
+        )
+        self.assertEqual(
+            entities_by_key["press"]._sensor_info["unit"],
+            SENSOR_MODULE.UnitOfPressure.HPA,
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
