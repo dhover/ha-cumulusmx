@@ -1,81 +1,137 @@
 # CumulusMX Integration for Home Assistant
 
 ## Overview
-The CumulusMX integration allows you to connect your CumulusMX weather station to Home Assistant, enabling you to monitor and control your weather data seamlessly.
+The CumulusMX integration connects a CumulusMX weather station to Home Assistant using the CumulusMX local API. It exposes weather, system and AirLink sensor data as Home Assistant entities.
+
+## Features
+- Local polling integration for CumulusMX API data
+- Configurable host and port for your CumulusMX server
+- Selectable webtags to control which sensors are exposed
+- Sensor entities for weather, system diagnostics, and AirLink data
+- Optional update entity for checking CumulusMX releases from GitHub
+
+## Requirements
+- Home Assistant with support for custom integrations
+- Running CumulusMX instance reachable from Home Assistant
+- CumulusMX HTTP API enabled and accessible via host + port
 
 ## Installation
 
-### GUI Installation (Recommended)
-1. In Home Assistant, go to **Settings** > **Devices & Services**.
-2. Click **+ Add Integration** and search for "CumulusMX".
-3. Follow the on-screen instructions to complete the setup.
-
 ### Manual Installation
-1. Download the CumulusMX integration files.
-2. Place the `cumulusmx` folder in your Home Assistant `custom_components` directory.
-3. Restart Home Assistant to recognize the new integration.
+1. Download the repository or integration files.
+2. Copy the `cumulusmx` folder into your Home Assistant `custom_components` directory.
+3. Restart Home Assistant.
+4. Add the integration from Home Assistant UI.
 
-## Webtags
+### HACS Installation
+This integration can also be installed through HACS if you add this repository as a custom repository.
 
-The integration supports the following webtags (sensor keys):
+## Setup
+1. In Home Assistant, go to **Settings** > **Devices & Services**.
+2. Click **+ Add Integration** and search for **CumulusMX**.
+3. Enter your CumulusMX host and port.
+   - Default host placeholder: `192.168.x.x`
+   - Default port: `8998`
+4. Save and wait for the integration to set up.
+
+## Configuration Options
+After adding the integration, you can customize which webtags are exposed as sensors:
+- Open the integration in **Devices & Services**
+- Click **Options**
+- Select the webtags you want to enable
+
+If no tags are selected, the integration will fall back to a default set of common weather values.
+
+## Supported webtags
+The integration supports the following webtag names:
 
 ```
+temp
+hum
+dew
+heatindex
+press
+rfall
+rrate
+wgust
+wspeed
+wlatest
+wdir
+currentwdir
+bearing
+avgbearing
+LastRainTipISO
+ProgramUpTime
+SystemUpTime
+timehhmmss
 AirLinkPm1Out
 AirLinkPm2p5Out
 AirLinkPm2p5_1hrOut
 AirLinkPm2p5_3hrOut
 AirLinkPm2p5_24hrOut
-AirLinkPm2p5_NowCastOut
+AirLinkPm2p5_NowcastOut
 AirLinkPm10Out
 AirLinkPm10_1hrOut
 AirLinkPm10_3hrOut
 AirLinkPm10_24hrOut
-AirLinkPm10_NowCastOut
+AirLinkPm10_NowcastOut
 AirLinkAqiPm2p5Out
 AirLinkAqiPm2p5_1hrOut
 AirLinkAqiPm2p5_3hrOut
 AirLinkAqiPm2p5_24hrOut
-AirLinkAqiPm2p5_NowCastOut
+AirLinkAqiPm2p5_NowcastOut
 AirLinkAqiPm10Out
 AirLinkAqiPm10_1hrOut
 AirLinkAqiPm10_3hrOut
 AirLinkAqiPm10_24hrOut
-AirLinkAqiPm10_NowCastOut
-AirLinkTempOut
+AirLinkAqiPm10_NowcastOut
 AirLinkHumOut
-avgbearing
-bearing
+AirLinkTempOut
 build
-dew
-hum
-inhum
-intemp
-LastRainTipISO
 MulticastBadCnt
 MulticastGoodCnt
 MulticastGoodPct
-press
-ProgramUpTime
-rfall
-rrate
-SolarRad
-SystemUpTime
-temp
-timehhmmss
 txbattery channel=1
 txbattery channel=2
-UV
 version
-wgust
-wlatest
-wspeed
+intemp
+inhum
+SolarRad
+UV
 ```
 
-## Usage
-Once configured, the CumulusMX integration will create sensor entities in Home Assistant that represent various weather data points. You can view and use these sensors in your Home Assistant dashboard.
+These tags map to weather, system, and AirLink sensor entities in Home Assistant.
+
+## Entities
+The integration creates entities for:
+- Weather sensors (temperature, humidity, pressure, wind, rainfall, UV, solar radiation, etc.)
+- System diagnostics (uptime, build, version, packet counts, battery status)
+- AirLink sensors (PM, AQI, temperature, humidity)
+- Update entity for `CumulusMX Hub` to check latest release info
+
+### Example sensor groups
+- `Temperature`
+- `Humidity`
+- `Wind Speed`
+- `Rainfall`
+- `Pressure`
+- `Solar Radiation`
+- `Version`
+- `Uptime`
 
 ## Troubleshooting
-If you encounter issues, check the Home Assistant logs for any error messages related to the CumulusMX integration. Ensure that your CumulusMX server is running and accessible from your Home Assistant instance.
+- Verify your CumulusMX server is running and reachable from Home Assistant.
+- Confirm the host and port are correct.
+- Check Home Assistant logs for `cumulusmx` errors.
+- If the integration fails to connect, make sure the CumulusMX API endpoint is accessible.
 
 ## Contributing
-If you would like to contribute to the CumulusMX integration, please fork the repository and submit a pull request with your changes.
+Contributions are welcome.
+
+1. Fork the repository.
+2. Create a feature branch.
+3. Submit a pull request with your changes.
+
+## Support
+- Repository: https://github.com/dhover/ha-cumulusmx
+- Issues: https://github.com/dhover/ha-cumulusmx/issues
