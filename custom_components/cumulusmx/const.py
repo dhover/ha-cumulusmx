@@ -10,8 +10,7 @@ from homeassistant.const import (
     UnitOfSpeed,
     UnitOfVolumetricFlux,
     UnitOfIrradiance,
-    CONCENTRATION_MICROGRAMS_PER_CUBIC_METER,
-    PERCENTAGE,
+    UnitOfDensity,
     DEGREE,
 )
 from homeassistant.helpers.entity import EntityCategory
@@ -77,77 +76,77 @@ SENSOR_TYPES = {
         "name": "PM 1.0",
         "device_class": SensorDeviceClass.PM1,
         "state_class": SensorStateClass.MEASUREMENT,
-        "unit": CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
+        "unit": UnitOfDensity.MICROGRAMS_PER_CUBIC_METER
     },
     "AirLinkPm2p5Out": {
         "device": "airlink",
         "name": "PM 2.5",
         "device_class": SensorDeviceClass.PM25,
         "state_class": SensorStateClass.MEASUREMENT,
-        "unit": CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
+        "unit": UnitOfDensity.MICROGRAMS_PER_CUBIC_METER
     },
     "AirLinkPm2p5_1hrOut": {
         "device": "airlink",
         "name": "PM 2.5 1h",
         "device_class": SensorDeviceClass.PM25,
         "state_class": SensorStateClass.MEASUREMENT,
-        "unit": CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
+        "unit": UnitOfDensity.MICROGRAMS_PER_CUBIC_METER
     },
     "AirLinkPm2p5_3hrOut": {
         "device": "airlink",
         "name": "PM 2.5 3h",
         "device_class": SensorDeviceClass.PM25,
         "state_class": SensorStateClass.MEASUREMENT,
-        "unit": CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
+        "unit": UnitOfDensity.MICROGRAMS_PER_CUBIC_METER
     },
     "AirLinkPm2p5_24hrOut": {
         "device": "airlink",
         "name": "PM 2.5 24h",
         "device_class": SensorDeviceClass.PM25,
         "state_class": SensorStateClass.MEASUREMENT,
-        "unit": CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
+        "unit": UnitOfDensity.MICROGRAMS_PER_CUBIC_METER
     },
     "AirLinkPm2p5_NowcastOut": {
         "device": "airlink",
         "name": "Pm 2.5 Nowcast",
         "device_class": SensorDeviceClass.PM25,
         "state_class": SensorStateClass.MEASUREMENT,
-        "unit": CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
+        "unit": UnitOfDensity.MICROGRAMS_PER_CUBIC_METER
     },
     "AirLinkPm10Out": {
         "device": "airlink",
         "name": "PM 10",
         "device_class": SensorDeviceClass.PM10,
         "state_class": SensorStateClass.MEASUREMENT,
-        "unit": CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
+        "unit": UnitOfDensity.MICROGRAMS_PER_CUBIC_METER
     },
     "AirLinkPm10_1hrOut": {
         "device": "airlink",
         "name": "PM 10 1h",
         "device_class": SensorDeviceClass.PM10,
         "state_class": SensorStateClass.MEASUREMENT,
-        "unit": CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
+        "unit": UnitOfDensity.MICROGRAMS_PER_CUBIC_METER
     },
     "AirLinkPm10_3hrOut": {
         "device": "airlink",
         "name": "PM 10 3h",
         "device_class": SensorDeviceClass.PM10,
         "state_class": SensorStateClass.MEASUREMENT,
-        "unit": CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
+        "unit": UnitOfDensity.MICROGRAMS_PER_CUBIC_METER
     },
     "AirLinkPm10_24hrOut": {
         "device": "airlink",
         "name": "PM 10 24h",
         "device_class": SensorDeviceClass.PM10,
         "state_class": SensorStateClass.MEASUREMENT,
-        "unit": CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
+        "unit": UnitOfDensity.MICROGRAMS_PER_CUBIC_METER
     },
     "AirLinkPm10_NowcastOut": {
         "device": "airlink",
         "name": "PM 10 Nowcast",
         "device_class": SensorDeviceClass.PM10,
         "state_class": SensorStateClass.MEASUREMENT,
-        "unit": CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
+        "unit": UnitOfDensity.MICROGRAMS_PER_CUBIC_METER
     },
     "AirLinkAqiPm2p5Out": {
         "device": "airlink",
@@ -224,7 +223,7 @@ SENSOR_TYPES = {
         "name": "Humidity",
         "device_class": SensorDeviceClass.HUMIDITY,
         "state_class": SensorStateClass.MEASUREMENT,
-        "unit": PERCENTAGE
+        "unit": "%"
     },
     "AirLinkTempOut": {
         "device": "airlink",
@@ -266,7 +265,7 @@ SENSOR_TYPES = {
         "name": "Good packets percent",
         "device_class": None,
         "state_class": SensorStateClass.MEASUREMENT,
-        "unit": PERCENTAGE,
+        "unit": "%",
         "entity_category": EntityCategory.DIAGNOSTIC,
         "icon": "mdi:percent"
     },
@@ -358,7 +357,7 @@ SENSOR_TYPES = {
         "name": "Humidity",
         "device_class": SensorDeviceClass.HUMIDITY,
         "state_class": SensorStateClass.MEASUREMENT,
-        "unit": PERCENTAGE
+        "unit": "%"
     },
     "LastRainTipISO": {
         "device": "weather",
@@ -457,7 +456,7 @@ SENSOR_TYPES = {
         "name": "Indoor Humidity",
         "device_class": SensorDeviceClass.HUMIDITY,
         "state_class": SensorStateClass.MEASUREMENT,
-        "unit": PERCENTAGE,
+        "unit": "%",
     },
     "SolarRad": {
         "device": "weather",
