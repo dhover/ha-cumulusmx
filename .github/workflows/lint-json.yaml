@@ -1,0 +1,31 @@
+name: Lint JSON files
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  json-lint:
+    name: Validate all JSON files
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Find and lint JSON files
+        run: |
+          echo "Scanning repository for JSON files..."
+          json_files=$(find . -type f -name "*.json")
+
+          if [ -z "$json_files" ]; then
+            echo "No JSON files found."
+            exit 0
+          fi
+
+          for file in $json_files; do
+            echo "Linting: $file"
+            jq -e '.' "$file" >/dev/null
+          done
+
+          echo "All JSON files are valid."
