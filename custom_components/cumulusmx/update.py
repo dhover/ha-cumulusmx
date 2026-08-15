@@ -65,7 +65,6 @@ class CumulusMXUpdateEntity(UpdateEntity):
         self._attr_latest_version = None
         self._attr_installed_version = None
         self._attr_release_url = None
-        self._attr_title = "CumulusMX Hub"
         self._update_interval_unsub = None
 
     async def async_added_to_hass(self) -> None:

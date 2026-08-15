@@ -170,6 +170,12 @@ class UpdateEntityTestCase(unittest.IsolatedAsyncioTestCase):
         self.assertTrue(UPDATE_MODULE.CumulusMXUpdateEntity(None).version_is_newer("4.5.7", "4.5.6"))
         self.assertFalse(UPDATE_MODULE.CumulusMXUpdateEntity(None).version_is_newer("latest", "4.5.6"))
 
+    def test_update_entity_uses_translated_name_instead_of_title(self):
+        entity = UPDATE_MODULE.CumulusMXUpdateEntity(SimpleNamespace())
+
+        self.assertEqual(entity._attr_translation_key, "hub_update")
+        self.assertIsNone(getattr(entity, "_attr_title", None))
+
     async def test_async_update_fetches_latest_release_with_timeout(self):
         session = SessionStub(
             ResponseStub(
