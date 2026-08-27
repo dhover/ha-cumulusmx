@@ -297,6 +297,19 @@ class SensorHelpersTestCase(unittest.TestCase):
             {"station_type": "Ecowitt GW2000"},
         )
 
+        ecowitt_info = SENSOR_MODULE.get_device_info(
+            "weather",
+            "weather.local",
+            8998,
+            "entry-1",
+            "Ecowitt and clones HTTP Local API (Recommended)",
+        )
+        self.assertEqual(ecowitt_info.model, "Ecowitt HTTP Local API")
+        self.assertEqual(
+            ecowitt_info.translation_placeholders,
+            {"station_type": "Ecowitt HTTP Local API"},
+        )
+
     def test_get_device_type_returns_none_for_unknown_keys(self):
         self.assertEqual(SENSOR_MODULE.get_device_type("temp"), "weather")
         self.assertIsNone(SENSOR_MODULE.get_device_type("unknown_key"))

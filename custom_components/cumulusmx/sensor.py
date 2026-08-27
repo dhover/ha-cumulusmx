@@ -80,6 +80,8 @@ def get_device_info(
         )
     else:
         station_name = station_type or "Weather station"
+        if station_name == "Ecowitt and clones HTTP Local API (Recommended)":
+            station_name = "Ecowitt HTTP Local API"
         return DeviceInfo(
             identifiers={(DOMAIN, device_identifier)},
             translation_key="weather_station",
