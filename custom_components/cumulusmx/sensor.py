@@ -6,6 +6,7 @@ import logging
 from typing import TYPE_CHECKING
 
 from homeassistant.components.sensor import SensorEntity
+from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.components.sensor import SensorDeviceClass
 from homeassistant.helpers.entity import DeviceInfo
@@ -52,10 +53,12 @@ def get_station_manufacturer(station_type: str | None) -> str:
     return station_type.split()[0]
 
 
-def get_device_info(device_type, host, port, entry_id, station_type=None):
+def get_device_info(
+    device_type, host, port, entry_id, station_type=None, hub_device_id=None
+):
     """Return device info based on device type."""
     device_identifier = f"{entry_id}_{device_type}"
-    hub_identifier = (DOMAIN, entry_id)
+    via_hub = {"via_device_id": hub_device_id} if hub_device_id else {}
 
     if device_type == "airlink":
         return DeviceInfo(
@@ -64,7 +67,7 @@ def get_device_info(device_type, host, port, entry_id, station_type=None):
             manufacturer="Davis",
             model="AirLink",
             configuration_url=f"http://{host}:{port}",
-            via_device=hub_identifier,
+            **via_hub,
         )
     elif device_type == "system":
         return DeviceInfo(
@@ -73,7 +76,7 @@ def get_device_info(device_type, host, port, entry_id, station_type=None):
             manufacturer="CumulusMX",
             model="System Info",
             configuration_url=f"http://{host}:{port}",
-            via_device=hub_identifier,
+            **via_hub,
         )
     else:
         station_name = station_type or "Weather station"
@@ -86,7 +89,7 @@ def get_device_info(device_type, host, port, entry_id, station_type=None):
             manufacturer=get_station_manufacturer(station_name),
             model=station_name,
             configuration_url=f"http://{host}:{port}",
-            via_device=hub_identifier,
+            **via_hub,
         )
 
 
@@ -103,6 +106,11 @@ async def async_setup_entry(hass, config_entry: CumulusMXConfigEntry, async_add_
     """Set up sensors based on a config entry."""
 
     coordinator = config_entry.runtime_data
+    hub_device_id = dr.async_get_device_id_by_identifier(
+        hass,
+        (DOMAIN, config_entry.entry_id),
+        config_entry_id=config_entry.entry_id,
+    )
     sensors = []
     # Wait for the first data refresh to get all keys
     await coordinator.async_refresh()
@@ -177,7 +185,7 @@ async def async_setup_entry(hass, config_entry: CumulusMXConfigEntry, async_add_
         device_type = get_device_type(key)
         if device_type is not None:
             sensors.append(CumulusMXSensor(
-                coordinator, key, sensor_info, device_type))
+                coordinator, key, sensor_info, device_type, hub_device_id))
     async_add_entities(sensors)
 
 
@@ -187,7 +195,7 @@ class CumulusMXSensor(CoordinatorEntity, SensorEntity):
     _attr_has_entity_name = True
 
     def __init__(self, coordinator: CumulusMXCoordinator, key: str,
-                    sensor_info: dict, device_type: str):
+                    sensor_info: dict, device_type: str, hub_device_id: str | None):
         super().__init__(coordinator)
         self._key = key
         self._sensor_info = sensor_info
@@ -195,6 +203,7 @@ class CumulusMXSensor(CoordinatorEntity, SensorEntity):
         self._host = coordinator.host
         self._port = coordinator.port
         self._entry_id = coordinator.config_entry.entry_id
+        self._hub_device_id = hub_device_id
         self._attr_translation_key = sensor_info.get("translation_key")
         if not self._attr_translation_key:
             self._attr_name = self._sensor_info.get("name", self._key)
@@ -285,6 +294,7 @@ class CumulusMXSensor(CoordinatorEntity, SensorEntity):
             self._port,
             self._entry_id,
             self.coordinator.data.get("stationtype") if self.coordinator.data else None,
+            self._hub_device_id,
         )
 
     @property

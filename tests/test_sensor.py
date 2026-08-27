@@ -30,6 +30,7 @@ def _load_sensor_module():
         "homeassistant.components",
         "homeassistant.components.sensor",
         "homeassistant.helpers",
+        "homeassistant.helpers.device_registry",
         "homeassistant.helpers.entity",
         "homeassistant.helpers.update_coordinator",
         "homeassistant.const",
@@ -70,6 +71,18 @@ def _load_sensor_module():
     ha_helpers = types.ModuleType("homeassistant.helpers")
     sys.modules["homeassistant.helpers"] = ha_helpers
 
+    ha_device_registry = types.ModuleType("homeassistant.helpers.device_registry")
+
+    def async_get_device_id_by_identifier(hass, identifier, *, config_entry_id):
+        assert identifier == ("cumulusmx", "entry-1")
+        assert config_entry_id == "entry-1"
+        return hass.hub_device_id
+
+    ha_device_registry.async_get_device_id_by_identifier = (
+        async_get_device_id_by_identifier
+    )
+    sys.modules["homeassistant.helpers.device_registry"] = ha_device_registry
+
     ha_entity = types.ModuleType("homeassistant.helpers.entity")
 
     @dataclass(eq=True)
@@ -82,7 +95,7 @@ def _load_sensor_module():
         manufacturer: str | None = None
         model: str | None = None
         configuration_url: str | None = None
-        via_device: tuple | None = None
+        via_device_id: str | None = None
 
     ha_entity.DeviceInfo = DeviceInfo
     sys.modules["homeassistant.helpers.entity"] = ha_entity
@@ -266,12 +279,12 @@ class SensorHelpersTestCase(unittest.TestCase):
 
     def test_get_device_info_for_airlink_and_weather_station(self):
         airlink_info = SENSOR_MODULE.get_device_info(
-            "airlink", "weather.local", 8998, "entry-1"
+            "airlink", "weather.local", 8998, "entry-1", hub_device_id="hub-device-1"
         )
         self.assertEqual(airlink_info.manufacturer, "Davis")
         self.assertEqual(airlink_info.model, "AirLink")
         self.assertEqual(airlink_info.translation_key, "airlink")
-        self.assertEqual(airlink_info.via_device, ("cumulusmx", "entry-1"))
+        self.assertEqual(airlink_info.via_device_id, "hub-device-1")
 
         weather_info = SENSOR_MODULE.get_device_info(
             "weather", "weather.local", 8998, "entry-1", "Ecowitt GW2000"
@@ -307,7 +320,7 @@ class CumulusMXSensorTestCase(unittest.TestCase):
             data = {key: "1"}
         coordinator = self._make_coordinator(data)
         return SENSOR_MODULE.CumulusMXSensor(
-            coordinator, key, sensor_info.copy(), device_type
+            coordinator, key, sensor_info.copy(), device_type, "hub-device-1"
         )
 
     def test_native_value_normalizes_numeric_strings(self):
@@ -381,7 +394,7 @@ class AsyncSetupEntryTestCase(unittest.IsolatedAsyncioTestCase):
 
         coordinator.async_refresh = async_refresh
 
-        hass = SimpleNamespace()
+        hass = SimpleNamespace(hub_device_id="hub-device-1")
         config_entry = SimpleNamespace(entry_id="entry-1", runtime_data=coordinator)
         added_entities = []
 
@@ -393,6 +406,7 @@ class AsyncSetupEntryTestCase(unittest.IsolatedAsyncioTestCase):
         self.assertEqual([entity._key for entity in added_entities], ["temp", "press", "rfall", "rrate", "wspeed", "wdir"])
 
         entities_by_key = {entity._key: entity for entity in added_entities}
+        self.assertEqual(entities_by_key["temp"].device_info.via_device_id, "hub-device-1")
         self.assertEqual(
             entities_by_key["press"]._sensor_info["unit"], SENSOR_MODULE.UnitOfPressure.INHG
         )
@@ -425,7 +439,7 @@ class AsyncSetupEntryTestCase(unittest.IsolatedAsyncioTestCase):
 
         coordinator.async_refresh = async_refresh
 
-        hass = SimpleNamespace()
+        hass = SimpleNamespace(hub_device_id="hub-device-1")
         config_entry = SimpleNamespace(entry_id="entry-1", runtime_data=coordinator)
         added_entities = []
 
