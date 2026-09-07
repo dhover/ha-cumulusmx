@@ -163,15 +163,17 @@ async def async_setup_entry(hass, config_entry: CumulusMXConfigEntry, async_add_
             match rain_unit:
                 case "mm":
                     sensor_info["unit"] = UnitOfPrecipitationDepth.MILLIMETERS
-                case "inches":
+                case "inches" | "inch" | "in":
                     sensor_info["unit"] = UnitOfPrecipitationDepth.INCHES
+                    sensor_info["suggested_display_precision"] = 2
 
         if sensor_info["device_class"] == SensorDeviceClass.PRECIPITATION_INTENSITY:
             match rain_unit:
                 case "mm":
                     sensor_info["unit"] = UnitOfVolumetricFlux.MILLIMETERS_PER_HOUR
-                case "inches":
+                case "inches" | "inch" | "in":
                     sensor_info["unit"] = UnitOfVolumetricFlux.INCHES_PER_HOUR
+                    sensor_info["suggested_display_precision"] = 2
 
         if sensor_info["device_class"] == SensorDeviceClass.WIND_SPEED:
             match wind_unit:
