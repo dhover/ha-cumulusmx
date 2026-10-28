@@ -11,6 +11,9 @@ import unittest
 from types import SimpleNamespace
 
 
+UNDEFINED = object()
+
+
 def _load_sensor_module():
     """Load the sensor module with lightweight Home Assistant stubs."""
     sensor_path = (
@@ -32,6 +35,7 @@ def _load_sensor_module():
         "homeassistant.helpers",
         "homeassistant.helpers.device_registry",
         "homeassistant.helpers.entity",
+        "homeassistant.helpers.typing",
         "homeassistant.helpers.update_coordinator",
         "homeassistant.const",
     ):
@@ -99,6 +103,10 @@ def _load_sensor_module():
 
     ha_entity.DeviceInfo = DeviceInfo
     sys.modules["homeassistant.helpers.entity"] = ha_entity
+
+    ha_typing = types.ModuleType("homeassistant.helpers.typing")
+    ha_typing.UNDEFINED = UNDEFINED
+    sys.modules["homeassistant.helpers.typing"] = ha_typing
 
     ha_update_coordinator = types.ModuleType(
         "homeassistant.helpers.update_coordinator"
@@ -276,6 +284,12 @@ class SensorHelpersTestCase(unittest.TestCase):
             SENSOR_MODULE.get_station_manufacturer("Mystery Station 2000"), "Mystery"
         )
         self.assertEqual(SENSOR_MODULE.get_station_manufacturer(None), "Unknown")
+
+    def test_get_device_info_without_hub_leaves_via_device_undefined(self):
+        info = SENSOR_MODULE.get_device_info(
+            "system", "weather.local", 8998, "entry-1"
+        )
+        self.assertIs(info.via_device_id, UNDEFINED)
 
     def test_get_device_info_for_airlink_and_weather_station(self):
         airlink_info = SENSOR_MODULE.get_device_info(

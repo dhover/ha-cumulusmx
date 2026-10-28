@@ -10,6 +10,7 @@ from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.components.sensor import SensorDeviceClass
 from homeassistant.helpers.entity import DeviceInfo
+from homeassistant.helpers.typing import UNDEFINED
 from homeassistant.const import (
     UnitOfTemperature,
     UnitOfPressure,
@@ -58,7 +59,7 @@ def get_device_info(
 ):
     """Return device info based on device type."""
     device_identifier = f"{entry_id}_{device_type}"
-    via_hub = {"via_device_id": hub_device_id} if hub_device_id else {}
+    via_device_id = hub_device_id or UNDEFINED
 
     if device_type == "airlink":
         return DeviceInfo(
@@ -67,7 +68,7 @@ def get_device_info(
             manufacturer="Davis",
             model="AirLink",
             configuration_url=f"http://{host}:{port}",
-            **via_hub,
+            via_device_id=via_device_id,
         )
     elif device_type == "system":
         return DeviceInfo(
@@ -76,7 +77,7 @@ def get_device_info(
             manufacturer="CumulusMX",
             model="System Info",
             configuration_url=f"http://{host}:{port}",
-            **via_hub,
+            via_device_id=via_device_id,
         )
     else:
         station_name = station_type or "Weather station"
@@ -91,7 +92,7 @@ def get_device_info(
             manufacturer=get_station_manufacturer(station_name),
             model=station_name,
             configuration_url=f"http://{host}:{port}",
-            **via_hub,
+            via_device_id=via_device_id,
         )
 
 
