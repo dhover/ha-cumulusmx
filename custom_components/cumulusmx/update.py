@@ -150,16 +150,15 @@ class CumulusMXUpdateEntity(UpdateEntity):
     @property
     def device_info(self) -> DeviceInfo:
         """Return device information."""
-        if not self.coordinator.data:
-            return None
-
-        version = self._attr_installed_version or ""
-        build = self.coordinator.data.get("build") or ""
-        return DeviceInfo(
+        device_info = DeviceInfo(
             identifiers={(DOMAIN, self.coordinator.config_entry.entry_id)},
             translation_key="hub",
             manufacturer="CumulusMX",
             model="Hub",
             configuration_url=f"http://{self.coordinator.host}:{self.coordinator.port}",
-            sw_version=f"{version} build {build}",
         )
+        if self.coordinator.data:
+            version = self._attr_installed_version or ""
+            build = self.coordinator.data.get("build") or ""
+            device_info.sw_version = f"{version} build {build}"
+        return device_info
