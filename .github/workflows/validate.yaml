@@ -5,7 +5,7 @@ on:
   schedule:
     - cron: "0 0 * * *"
   push:
-    branches: ["main"]
+    #branches: ["main"]
     paths:
       - "custom_components/**"
   pull_request:
